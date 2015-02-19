@@ -2,7 +2,10 @@
     <h1 class="page-header">Release! Point keeper</h1>
     <div class="row">
         <div class="col-xs-6 score"><div data-bind="visible: players().length > 0">Release: <!-- ko text: currentRelease --><!-- /ko --></div></div>
-        <div class="col-xs-6 text-right"><button class="btn btn-primary btn-lg" data-bind="click: addPlayer">Add a player <i class="fa fa-user-plus"></i></button></div>
+        <div class="col-xs-6 text-right">
+            <button class="btn btn-warning btn-lg" data-bind="click: reset"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-primary btn-lg" data-bind="click: addPlayer">Add a player <i class="fa fa-user-plus"></i></button>
+        </div>
     </div>
     
     <table class="table">
