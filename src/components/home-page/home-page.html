@@ -1,0 +1,30 @@
+<div class="container">
+    <h1 class="page-header">Release! Point keeper</h1>
+    <div class="row">
+        <div class="col-xs-6 score"><div data-bind="visible: players().length > 0">Release: <!-- ko text: currentRelease --><!-- /ko --></div></div>
+        <div class="col-xs-6 text-right"><button class="btn btn-primary btn-lg" data-bind="click: addPlayer">Add a player <i class="fa fa-user-plus"></i></button></div>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="fa" style="display: table-cell !important" >&nbsp;</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Add</th>
+                <th class="text-center">Substract</th>
+                <th class="text-center">Score</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: players">
+            <tr>
+                <th class="fa" style="display: table-cell !important" data-bind="css: { 'fa-star': isWinning, 'fa-chain-broken': isLosing, winning: isWinning, losing: isLosing }"></th>
+                <td><input name="playerName" type="text" class="form-control" data-bind="value: name"></td>
+                <td class="text-center"><button class="btn btn-success" data-bind="click: add(1)"><i class="fa fa-plus-circle fa-lg"></i></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-bind="click: add(-1)"><i class="fa fa-minus-circle fa-lg"></i></button></td>
+                <td class="score text-center" data-bind="text: score() > 0 ? '+' + score() : score(), css: { 'text-success': score() > 0, 'text-danger': score() < 0 }"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <button class="btn btn-success btn-lg btn-block" data-bind="visible: players().length > 0, click: nextRelease">Next Release! <i class="fa fa-forward"></i></button>
+</div>
