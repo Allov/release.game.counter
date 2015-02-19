@@ -25,6 +25,7 @@ define(['text!./home-page.html', 'knockout', 'lodash'], function(template, ko, _
 
     ViewModel.prototype.reset = function() {
         var self = this;
+        self.currentRelease(1);
         _.forEach(self.players(), function(plyr) {
             plyr.score(0);
         });
