@@ -2,15 +2,21 @@
 
 var configManager = require('./../configuration/configManager');
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var morgan = require('morgan');
 var gutil = require('gulp-util');
+var io = require('socket.io');
+var GamesApi = require('./games-api');
 
 function Server() {
     this.expressApp = express();
 
     //https://www.npmjs.com/package/morgan
-    this.expressApp.use(morgan('dev'));
+    //this.expressApp.use(morgan('dev'));
+    this.expressApp.use(morgan('combined', {
+        skip: function(req, res) { return res.statusCode < 400; }
+    }));
 
 
     //TODO: Valeurs à partir des configs
@@ -39,7 +45,13 @@ function Server() {
 }
 
 Server.prototype.start = function(callback) {
-    var server = this.expressApp.listen(configManager.get('port'), function() {
+    var httpServer = http.Server(this.expressApp);
+
+    io = io(httpServer);
+    
+    var api = new GamesApi(io);
+
+    var server = httpServer.listen(configManager.get('port'), function() {
         var serverAddress = server.address();
         var serverHost = serverAddress.address === '0.0.0.0' || serverAddress.address === '::' ? 'localhost' : serverAddress.address;
         var url = 'http://' + serverHost + ':' + serverAddress.port + '/';

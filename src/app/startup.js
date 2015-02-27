@@ -16,16 +16,15 @@ define([
         knockoutConfigurator.configure();
 
         
-            components.registerComponents();
+        components.registerComponents();
 
-            ko.applyBindings({
-                router: router,
-                dialoger: dialoger,
-                modaler: modaler
-            });
+        ko.applyBindings({
+            router: router,
+            dialoger: dialoger,
+            modaler: modaler
+        });
 
-            dialoger.init();
-            modaler.init();
-            router.init();
-        
+        dialoger.init();
+        modaler.init();
+        router.init();
     });

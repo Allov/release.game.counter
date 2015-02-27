@@ -20,7 +20,9 @@ var require = {
         'router': 'bower_components/knockout-router/src/router',
         'knockout-utilities': 'bower_components/knockout-utilities/src/knockout-utilities',
         'router-event': 'bower_components/knockout-router/src/router-event',
-        'router-state': 'bower_components/knockout-router-state-push/src/router-state-push'
+        'router-state': 'bower_components/knockout-router-state-push/src/router-state-push',
+        'nav-bar': 'components/nav-bar/nav-bar',
+        'socketio': 'bower_components/socket.io-client/socket.io'
     },
     shim: {
         'bootstrap': {
