@@ -1,11 +1,11 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Scorekeepr</h1>
-        <p class="lead">Keep score of a game with your friend and have them watch the progression on their phone!</p>
+        <p class="lead" data-bind="text: t('general.slogan')"></p>
         <div class="form-group">
-            <label for="gamename">Create a game NOW!</label>
-            <input class="form-control" data-bind="value: gameName" placeholder="My game">
+            <label for="gamename" data-bind="text: t('general.create-game-now')"></label>
+            <input class="form-control" data-bind="value: gameName, attr: { placeholder: t('general.my-game') }">
         </div>
-        <p><button class="btn btn-lg btn-success" data-bind="click: create">Create game!</button></p>
+        <p><button class="btn btn-lg btn-success" data-bind="click: create, text: t('general.create-game')"></button></p>
     </div>
 </div>

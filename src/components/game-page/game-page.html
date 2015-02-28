@@ -1,26 +1,26 @@
 <div class="container">
     <div class="pull-right">
-        <button class="btn btn-warning btn-lg" data-bind="click: reset"><i class="fa fa-refresh"></i></button>
-        <button class="btn btn-primary btn-lg" data-bind="click: addPlayer"><i class="fa fa-user-plus"></i></button>
+        <button class="btn btn-warning btn-lg" data-bind="click: reset"><i class="fa fa-refresh"></i> <span class="hidden-xs hidden-sm" data-bind="text: t('general.reset-score')"></span></button>
+        <button class="btn btn-primary btn-lg" data-bind="click: addPlayer"><i class="fa fa-user-plus"></i> <span class="hidden-xs hidden-sm" data-bind="text: t('general.add-player')"></span></button>
     </div>
     
     <table class="table">
         <thead>
             <tr>
-                <th class="fa" style="display: table-cell !important" >&nbsp;</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Add</th>
-                <th class="text-center">Substract</th>
-                <th class="text-center">Score</th>
+                <th class="status fa">&nbsp;</th>
+                <th data-bind="text: t('general.name')"></th>
+                <th class="text-center" data-bind="text: t('general.add')"></th>
+                <th class="text-center" data-bind="text: t('general.substract')"></th>
+                <th class="text-center" data-bind="text: t('general.score')"></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: players">
             <tr>
-                <th class="fa" style="display: table-cell !important" data-bind="css: { 'fa-star': isWinning, 'fa-chain-broken': isLosing, winning: isWinning, losing: isLosing }"></th>
+                <th class="status fa" data-bind="css: { 'fa-star': isWinning, 'fa-chain-broken': isLosing, winning: isWinning, losing: isLosing }"></th>
                 <td><input name="playerName" type="text" class="form-control" data-bind="value: name"></td>
-                <td class="text-center"><button class="btn btn-success" data-bind="click: add(1)"><i class="fa fa-plus-circle fa-lg"></i></button></td>
-                <td class="text-center"><button class="btn btn-danger" data-bind="click: add(-1)"><i class="fa fa-minus-circle fa-lg"></i></button></td>
-                <td class="score text-center" data-bind="text: score() > 0 ? '+' + score() : score(), css: { 'text-success': score() > 0, 'text-danger': score() < 0 }"></td>
+                <td class="text-center"><button class="btn btn-success" data-bind="click: add(1)"><i class="fa fa-plus-circle fa-lg"></i><span class="sr-only" data-bind="text: $parent.t('general.add-description')"></span></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-bind="click: add(-1)"><i class="fa fa-minus-circle fa-lg"></i><span class="sr-only" data-bind="text: $parent.t('general.substract-description')"></span></button></td>
+                <td class="score text-center"><span class="sr-only" data-bind="text: $parent.t('unique_name', 'general.score-description', { player: name })"></span><span data-bind="text: score() > 0 ? '+' + score() : score(), css: { 'text-success': score() > 0, 'text-danger': score() < 0 }"></span></td>
             </tr>
         </tbody>
     </table>

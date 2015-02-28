@@ -1,15 +1,9 @@
 <div class="container">
+    <h1>Game title!</h1>
+    <p class="lead">Small description...</p>
     <table class="table">
-        <thead>
-            <tr>
-                <th class="fa" style="display: table-cell !important" >&nbsp;</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Score</th>
-            </tr>
-        </thead>
         <tbody data-bind="foreach: players">
             <tr>
-                <th class="fa" style="display: table-cell !important" data-bind="css: { 'fa-star': isWinning, 'fa-chain-broken': isLosing, winning: isWinning, losing: isLosing }"></th>
                 <td class="view-name" data-bind="text: name"></td>
                 <td class="score text-center" data-bind="text: score > 0 ? '+' + score : score, css: { 'text-success': score > 0, 'text-danger': score < 0 }"></td>
             </tr>

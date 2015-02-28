@@ -1,10 +1,13 @@
-define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio'],
-    function(template, ko, _, io) {
+define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18next-translator'],
+    function(template, ko, _, io, Translator) {
         'use strict';
         
         var ViewModel = function(params, componentInfo) {
             var self = this;
             
+            self.translator = new Translator();
+            self.t = self.translator.t;
+
             self.players = ko.observableArray([]);
             
             self.socket = params.activationData.socket;
@@ -30,6 +33,12 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio'],
             }
         };
         
+        ViewModel.prototype.dispose = function() {
+            var self = this;
+
+            self.translator.dispose();
+        };
+
         function updateGameData(self, gameData) {
             gameData = _.sortBy(gameData, 'score').reverse();
             self.players(gameData);

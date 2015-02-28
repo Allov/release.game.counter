@@ -1,5 +1,5 @@
-define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-utilities'],
-    function(template, ko, _, io, koUtils) {
+define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-utilities', 'knockout-i18next-translator'],
+    function(template, ko, _, io, koUtils, Translator) {
         'use strict';
 
         var Player = function(name) {
@@ -17,6 +17,9 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-uti
         var ViewModel = function(params, componentInfo) {
             var self = this;
             self.players = ko.observableArray([]);
+
+            self.translator = new Translator();
+            self.t = self.translator.t;
 
             self.socket = params.activationData.socket;
             
@@ -47,7 +50,7 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-uti
         ViewModel.prototype.addPlayer = function() {
             var self = this;
             var playerNumber = self.players().length + 1;
-            var player = new Player('Player ' + playerNumber);
+            var player = new Player(self.t('general.player')() + playerNumber);
             self.players.push(player);
             
             player.score.subscribe(function() {
@@ -81,6 +84,12 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-uti
             });
         };
         
+        ViewModel.prototype.dispose = function() {
+            var self = this;
+
+            self.translator.dispose();
+        };
+
         function updateServerGameData(socket, players) {
             socket.emit('game-data', koUtils.toJS(players));
         }

@@ -1,0 +1,18 @@
+{
+    "general": {
+        "create-game": "Create a game",
+        "create-game-now": "Create a game NOW!",
+        "my-game": "My game",
+        "slogan": "Keep score of a game with your friend and have them watch the progression on their phone!",
+        "reset-score": "Reset score",
+        "add-player": "Add new player",
+        "name": "Name",
+        "add": "Add",
+        "add-description": "Add to score",
+        "substract": "Substract",
+        "substract-description": "Substract from score",
+        "score": "Score",
+        "score-description": "Score of __player__ is ",
+        "player": "Player "
+    }
+}
