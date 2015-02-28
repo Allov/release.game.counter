@@ -17,7 +17,7 @@
         <tbody data-bind="foreach: players">
             <tr>
                 <th class="status fa" data-bind="css: { 'fa-star': isWinning, 'fa-chain-broken': isLosing, winning: isWinning, losing: isLosing }"></th>
-                <td><input name="playerName" type="text" class="form-control" data-bind="value: name"></td>
+                <td><input name="playerName" type="text" onfocus="this.select();" onmouseup="return false;" class="form-control" data-bind="value: name, h"></td>
                 <td class="text-center"><button class="btn btn-success" data-bind="click: add(1)"><i class="fa fa-plus-circle fa-lg"></i><span class="sr-only" data-bind="text: $parent.t('general.add-description')"></span></button></td>
                 <td class="text-center"><button class="btn btn-danger" data-bind="click: add(-1)"><i class="fa fa-minus-circle fa-lg"></i><span class="sr-only" data-bind="text: $parent.t('general.substract-description')"></span></button></td>
                 <td class="score text-center"><span class="sr-only" data-bind="text: $parent.t('unique_name', 'general.score-description', { player: name })"></span><span data-bind="text: score() > 0 ? '+' + score() : score(), css: { 'text-success': score() > 0, 'text-danger': score() < 0 }"></span></td>
