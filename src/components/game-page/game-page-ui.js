@@ -1,5 +1,5 @@
-define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
-    function(template, ko, _, io) {
+define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-utilities'],
+    function(template, ko, _, io, koUtils) {
         'use strict';
 
         var Player = function(name) {
@@ -17,11 +17,8 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
         var ViewModel = function(params, componentInfo) {
             var self = this;
             self.players = ko.observableArray([]);
-            self.currentRelease = ko.observable(1);
-            
+
             self.socket = params.activationData.socket;
-            
-            console.log(params.activationData.user);
             
             self.socket.on('user joined', function(user) {
                 console.log('User [' + user.name + '] joined the game.');
@@ -34,16 +31,14 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
             self.socket.on('disconnect', function() {
                console.log('disconnected');
             });
+            
+            self.players.subscribe(function(players) {
+                updateServerGameData(self.socket, self.players);
+            });
         };
-        
-        ViewModel.prototype.nextRelease = function() {
-            var self = this;
-            self.currentRelease(self.currentRelease() + 1);
-        };
-    
+
         ViewModel.prototype.reset = function() {
             var self = this;
-            self.currentRelease(1);
             _.forEach(self.players(), function(plyr) {
                 plyr.score(0);
             });
@@ -54,6 +49,14 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
             var playerNumber = self.players().length + 1;
             var player = new Player('Player ' + playerNumber);
             self.players.push(player);
+            
+            player.score.subscribe(function() {
+                updateServerGameData(self.socket, self.players);
+            });
+            
+            player.name.subscribe(function() {
+                updateServerGameData(self.socket, self.players);
+            });
     
             player.score.subscribe(function(value) {
                 player._score = value;
@@ -77,6 +80,10 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
                 });
             });
         };
+        
+        function updateServerGameData(socket, players) {
+            socket.emit('game-data', koUtils.toJS(players));
+        }
         
         return {
             viewModel: {

@@ -87,12 +87,16 @@ var Api = function(io) {
         var user = new User(socket.id, data.name || ('User' + self.currentUserId));
         
         if (!joinedGame) {
-            gutil.log('joined an empty game');
+            gutil.log(_.template('Creating game room for [<%= name %>]')({ name: gameName }));
             user.isAdmin = true;
+            
+            socket.on('game-data', function(gameData) {
+               joinedGame.gameData = gameData;
+               io.to(joinedGame.name).emit('game-data-update', gameData);
+            });
             
             joinedGame = new Game(gameName, user);
         }
-        
         gutil.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] joined the game [' + gameName + ']');
 
         user.game = joinedGame;
@@ -103,7 +107,8 @@ var Api = function(io) {
         self.io.to(gameName).emit('user joined', { name: user.name});
         self.io.to(user.id).emit('joined', {
             isAdmin: user.isAdmin,
-            name: user.name
+            name: user.name,
+            gameData: joinedGame.gameData
         });
     }
 };

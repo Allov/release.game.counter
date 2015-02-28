@@ -27,6 +27,14 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
                 title: 'Game',
                 pageName: 'game'
             });
+            
+            router.registerPage('game-view', {
+                withActivator: true
+            });
+            router.addRoute('/game/:game:/view', {
+                title: 'Viewing game',
+                pageName: 'game-view'
+            });
         };
 
         return new Components();

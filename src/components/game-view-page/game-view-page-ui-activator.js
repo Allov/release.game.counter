@@ -2,11 +2,11 @@ define(['socketio'],
     function(io) {
         'use strict';
         
-        var GameActivator = function() {
+        var GameViewActivator = function() {
             
         };
         
-        GameActivator.prototype.activate = function(matchedRoute) {
+        GameViewActivator.prototype.activate = function(matchedRoute) {
             var deferred = new $.Deferred();
 
             // Here would be a good place to display a loading message.
@@ -20,11 +20,6 @@ define(['socketio'],
             });
             
             socket.on('joined', function(user) {
-                // Pass the loaded data to the component.
-                if (!user.isAdmin) {
-                    window.location = window.location + '/view';
-                }
-                
                 deferred.resolve({
                     user: user,
                     socket: socket
@@ -36,5 +31,5 @@ define(['socketio'],
             return deferred.promise();
         };
         
-        return new GameActivator();
+        return new GameViewActivator();
     });
