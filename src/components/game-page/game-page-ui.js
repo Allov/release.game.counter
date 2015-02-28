@@ -19,12 +19,9 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio'],
             self.players = ko.observableArray([]);
             self.currentRelease = ko.observable(1);
             
-            self.socket = io.connect();
+            self.socket = params.activationData.socket;
             
-            self.socket.on('connect', function() {
-                console.log('connected');
-                self.socket.emit('join', { game: params.params[0].game });
-            });
+            console.log(params.activationData.user);
             
             self.socket.on('user joined', function(user) {
                 console.log('User [' + user.name + '] joined the game.');

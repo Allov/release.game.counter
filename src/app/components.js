@@ -20,7 +20,9 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
                 pageName: 'home'
             });
             
-            router.registerPage('game');
+            router.registerPage('game', {
+                withActivator: true
+            });
             router.addRoute('/game/:game:', {
                 title: 'Game',
                 pageName: 'game'

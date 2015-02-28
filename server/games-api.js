@@ -3,6 +3,7 @@
 var Game = require('./game');
 var User = require('./user');
 var _ = require('lodash');
+var gutil = require('gulp-util');
 
 var Api = function(io) {
     var self = this;
@@ -35,7 +36,7 @@ var Api = function(io) {
         var user = getUserFromSocketId(socket.id);
 
         if (!user) {
-            console.log('User does not exist...')
+            gutil.log('User does not exist...')
             return;
         }
         
@@ -61,16 +62,16 @@ var Api = function(io) {
                 });
             }
 
-            console.log(_.template('Game [<%= name %>] has been removed (number of active game: <%= count %>).')({ name: leftGame.name, count: self.games.length }));
+            gutil.log(_.template('Game [<%= name %>] has been removed (number of active game: <%= count %>).')({ name: leftGame.name, count: self.games.length }));
         }
         
-        console.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] has left the game [' + leftGame.name + '].');
-        console.log(_.template('Game [<%= name %>] has <%= count %> user left.')({ name: leftGame.name, count: _.where(self.users, { game: leftGame }).length }));
+        gutil.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] has left the game [' + leftGame.name + '].');
+        gutil.log(_.template('Game [<%= name %>] has <%= count %> user left.')({ name: leftGame.name, count: _.where(self.users, { game: leftGame }).length }));
     }
     
     function createOrJoinGame(data, socket) {
         if (!data || !data.game) {
-            console.log('Invalid game name');
+            gutil.log('Invalid game name');
             return;
         }
     
@@ -86,13 +87,13 @@ var Api = function(io) {
         var user = new User(socket.id, data.name || ('User' + self.currentUserId));
         
         if (!joinedGame) {
-            console.log('joined an empty game');
+            gutil.log('joined an empty game');
             user.isAdmin = true;
             
             joinedGame = new Game(gameName, user);
         }
         
-        console.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] joined the game [' + gameName + ']');
+        gutil.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] joined the game [' + gameName + ']');
 
         user.game = joinedGame;
         
@@ -100,6 +101,10 @@ var Api = function(io) {
         self.users.push(user);
         
         self.io.to(gameName).emit('user joined', { name: user.name});
+        self.io.to(user.id).emit('joined', {
+            isAdmin: user.isAdmin,
+            name: user.name
+        });
     }
 };
 
