@@ -13,6 +13,7 @@
         "substract-description": "Soustraire au pointage",
         "score": "Score",
         "score-description": "Le score de __player__ est de ",
-        "player": "Joueur "
+        "player": "Joueur ",
+        "game-name-required": "Le nom de la partie est requis."
     }
 }

@@ -2,10 +2,14 @@
     <div class="jumbotron">
         <h1>Scorekeepr</h1>
         <p class="lead" data-bind="text: t('general.slogan')"></p>
-        <div class="form-group">
-            <label for="gamename" data-bind="text: t('general.create-game-now')"></label>
-            <input class="form-control" data-bind="value: gameName, attr: { placeholder: t('general.my-game') }">
-        </div>
-        <p><button class="btn btn-lg btn-success" data-bind="click: create, text: t('general.create-game')"></button></p>
+    
+        <form data-bind="submit: create">
+            <div class="form-group" data-bind="formGroupValidationCssClass : content().gameName.formGroupValidationCssClass">
+                <label for="gamename" data-bind="text: t('general.create-game-now')"></label>
+                <input class="form-control" data-bind="value: content().gameName, attr: { placeholder: t('general.my-game') }">
+                <span class="help-block" data-bind="helpBlockValidationMessage: content().gameName.helpBlockValidationMessage"></span>
+            </div>
+            <p><button type="submit" class="btn btn-lg btn-primary" data-bind="text: t('general.create-game')"></button></p>
+        </form>
     </div>
 </div>
