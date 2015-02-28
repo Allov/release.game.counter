@@ -15,9 +15,27 @@ define([
         'use strict';
 
         knockoutConfigurator.configure();
+        
+        var localStorage = window.localStorage;
+        var language = (window.navigator.userLanguage || window.navigator.language);
+        var defaultLanguage = 'en';
+        
+        if (language) {
+            defaultLanguage = language.indexOf('fr') > -1 ? 'fr' : 'en';
+        }
+        
+        if (localStorage) {
+            var storedLanguage = localStorage.getItem("preferedLanguage");
+            
+            if (storedLanguage) {
+                defaultLanguage = storedLanguage;
+            } else {
+                localStorage.setItem("preferedLanguage", defaultLanguage);
+            }
+        }
 
         knockoutI18next.init({
-            lng: 'fr',
+            lng: defaultLanguage,
             getAsync: true,
             fallbackLng: 'fr',
             resGetPath: '/app/locales/__lng__/__ns__.json',
@@ -26,6 +44,12 @@ define([
                 defaultNs: 'default',
             }
         }).then(function() {
+            knockoutI18next.lng.subscribe(function(value) {
+                if (window.localStorage) {
+                    window.localStorage.setItem("preferedLanguage", value);
+                }
+            });
+            
             components.registerComponents();
     
             ko.applyBindings({

@@ -11,6 +11,7 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             
             self.changeLanguageFR = function() {
                 knockoutI18next.lng('fr');
+                
             };
             
             self.changeLanguageEN = function() {
@@ -20,7 +21,7 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             self.toggleLanguage = function() {
                 knockoutI18next.lng(knockoutI18next.lng() === 'fr' ? 'en' : 'fr');
             };
-
+            
             $(document).on('click','.navbar-collapse.in',function(e) {
                 if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
                     $(this).collapse('hide');
