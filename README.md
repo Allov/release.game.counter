@@ -1,5 +1,5 @@
 
-# Scorekeeper.io
+# Scorekeepr.io
 
 This application will help you share and keep the score of any game where you have to add or remove points. Originally, I made this app for the card game [Release!](http://inedo.com/release), but I decided to generalise it a bit as it can be useful for any kind of game (e.g.: Scrabble, random hockey game, anything where you need to add and substract points from people, really).
 
