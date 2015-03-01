@@ -28,6 +28,14 @@ function Server() {
     //     res.status(404);
     // });
 
+    this.httpServer = http.Server(this.expressApp);
+    this.io = io(this.httpServer);
+    var api = new GamesApi(this.io);
+    
+    this.expressApp.get('/api/most-popular', function(req, res) {
+        res.send(api.mostPopularGames(4));
+    });
+
     this.expressApp.use(function(req, res, next) {
         if (path.extname(req.path).length > 0) {
             // normal static file request
@@ -45,13 +53,8 @@ function Server() {
 }
 
 Server.prototype.start = function(callback) {
-    var httpServer = http.Server(this.expressApp);
-
-    io = io(httpServer);
     
-    var api = new GamesApi(io);
-
-    var server = httpServer.listen(configManager.get('port'), function() {
+    var server = this.httpServer.listen(configManager.get('port'), function() {
         var serverAddress = server.address();
         var serverHost = serverAddress.address === '0.0.0.0' || serverAddress.address === '::' ? 'localhost' : serverAddress.address;
         var url = 'http://' + serverHost + ':' + serverAddress.port + '/';

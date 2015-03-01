@@ -13,6 +13,25 @@ var Api = function(io) {
     this.games = [];
     this.users = [];
     this.currentUserId = 99;
+    
+    self.mostPopularGames = function(max) {
+        var groupedGames = _.groupBy(self.users, function(user) {
+            return user.game.name;
+        });
+        
+        var games = [];
+        for(var i in groupedGames) {
+            games.push({
+                name: i,
+                count: groupedGames[i].length
+            });
+        }
+        
+        var sortedGames = _.sortBy(games, 'count');
+        sortedGames = sortedGames.reverse();
+        
+        return _.take(sortedGames, max);
+    };
 
     // register Socket IO events
     io.on('connection', function(socket) {
