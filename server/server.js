@@ -32,8 +32,19 @@ function Server() {
     this.io = io(this.httpServer);
     var api = new GamesApi(this.io);
     
-    this.expressApp.get('/api/most-popular', function(req, res) {
-        res.send(api.mostPopularGames(4));
+    this.expressApp.get('/api/games/most-popular', function(req, res) {
+        var games = api.mostPopularGames(4);
+        res.send(games);
+    });
+    
+    this.expressApp.get('/api/games/search/:term', function(req, res) {
+        var games = api.searchGames(req.params.term);
+        res.send(games);
+    });
+    
+    this.expressApp.get('/api/games/:name', function(req, res) {
+        var game = api.getGameByName(req.params.name);
+        res.send(game);
     });
 
     this.expressApp.use(function(req, res, next) {

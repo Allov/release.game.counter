@@ -14,6 +14,12 @@ var Api = function(io) {
     this.users = [];
     this.currentUserId = 99;
     
+    self.searchGames = function(name) {
+        return _.pluck(_.filter(this.games, function(game) {
+            return game.name.indexOf(name) > -1;
+        }), 'name');
+    };
+    
     self.mostPopularGames = function(max) {
         var groupedGames = _.groupBy(self.users, function(user) {
             return user.game.name;
@@ -31,6 +37,10 @@ var Api = function(io) {
         sortedGames = sortedGames.reverse();
         
         return _.take(sortedGames, max);
+    };
+    
+    self.getGameByName = function(name) {
+        return _.pluck(_.where(self.games, { name: name }), 'name');
     };
 
     // register Socket IO events
@@ -115,12 +125,12 @@ var Api = function(io) {
             });
             
             joinedGame = new Game(gameName, user);
+            self.games.push(joinedGame);
         }
         gutil.log('User [' + user.name + (user.isAdmin ? ' (admin)' : '') + '][' + user.id + '] joined the game [' + gameName + ']');
 
         user.game = joinedGame;
         
-        self.games.push(joinedGame);
         self.users.push(user);
         
         self.io.to(gameName).emit('user joined', { name: user.name});

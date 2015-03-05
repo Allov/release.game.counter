@@ -26,11 +26,16 @@ var require = {
         'knockout-i18next': 'bower_components/knockout-i18next/src/knockout-i18next',
         'i18next': 'bower_components/i18next/i18next.amd',
         'knockout-mutex': 'bower_components/knockout-mutex/src/knockout-mutex',
-        'knockout-i18next-translator': 'bower_components/knockout-i18next/src/knockout-i18next-translator'
+        'knockout-i18next-translator': 'bower_components/knockout-i18next/src/knockout-i18next-translator',
+        'typehead': 'bower_components/typehead.js/dist/typeahead.jquery',
+        'bloodhound': 'bower_components/typehead.js/dist/bloodhound'
     },
     shim: {
         'bootstrap': {
             deps: ['jquery']
+        },
+        'typehead': {
+            deps: ['jquery', 'bloodhound']
         },
         'knockout.validation': {
             deps: ['knockout']

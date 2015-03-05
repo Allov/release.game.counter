@@ -9,13 +9,20 @@
             </button>
             <a class="navbar-brand" href="/"><i class="fa fa-gamepad"></i> Scorekeepr</a>
             <ul class="nav navbar-nav visible-xs pull-right" style="padding-right: 15px;">
-                <li><a href="javascript:(0)" role="button" data-bind="click: toggleLanguage"><i class="fa fa-globe"></i> <span data-bind="text: currentLanguage"></span></a></li>
-            </li>
+                <li><a href="javascript:(0)" role="button" data-bind="click: toggleLanguage"><i class="fa fa-globe"></i> <span data-bind="text: nextLanguage"></span></a></li>
+            </ul>
         </div>
         <div id="navbar" class="collapse navbar-collapse" data-bind="visible: menus().length > 0">
             <ul data-bind="foreach: menus" class="nav navbar-nav">
                 <li data-bind="css: { active: $parent.isPageActive($data) }"><a data-bind="html: title ? title : title, attr: { href: url }"></a></li>
             </ul>
+            <!--
+            <form class="navbar-form navbar-left" role="search">
+                <div id="bloodhound" class="form-group">
+                    <input type="text" class="form-control typeahead" placeholder="Search">
+                </div>
+            </form>
+            -->
             <ul class="nav navbar-nav navbar-right hidden-xs">
                 <li class="dropdown">
                     <a href="javascript:(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-globe"></i> <span data-bind="text: currentLanguage"></span> <span class="caret"></span></a>

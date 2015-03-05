@@ -1,4 +1,4 @@
-define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next'],
+define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next', 'typehead'],
     function(template, navBar, router, ko, $, knockoutI18next) {
         'use strict';
 
@@ -7,6 +7,10 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             self.menus = navBar.menus;
             self.currentLanguage = ko.pureComputed(function() {
                 return knockoutI18next.lng() === 'fr' ? 'Français' : 'English';
+            });
+            
+            self.nextLanguage = ko.pureComputed(function() {
+                return knockoutI18next.lng() === 'fr' ? 'English' : 'Français';
             });
             
             self.changeLanguageFR = function() {
@@ -21,6 +25,20 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             self.toggleLanguage = function() {
                 knockoutI18next.lng(knockoutI18next.lng() === 'fr' ? 'en' : 'fr');
             };
+            
+            var games = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              remote: '/api/games/search/%QUERY'
+            });
+             
+            games.initialize();
+             
+            $('#bloodhound .typeahead').typeahead(null, {
+              name: 'games',
+              displayKey: 'value',
+              source: games.ttAdapter()
+            });
             
             $(document).on('click','.navbar-collapse.in',function(e) {
                 if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {

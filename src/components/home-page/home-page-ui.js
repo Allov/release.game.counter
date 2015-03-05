@@ -12,6 +12,13 @@ define(['text!./home-page.html', 'knockout', 'knockout-i18next-translator'],
                 gameName: ko.observable(undefined).extend({
                     required: {
                         message: self.t('general.game-name-required')()
+                    },
+                    gameIsUnique: {
+                        message: self.t('general.game-already-exists')()
+                    },
+                    successValidatingMessage: {
+                        validatingMessage: self.t('general.validating')(),
+                        validMessage: ''
                     }
                 })
             }).extend({
