@@ -2,14 +2,22 @@
     <div class="jumbotron">
         <h1>Scorekeepr</h1>
         <p class="lead" data-bind="text: t('general.slogan')"></p>
+        
+        <!-- ko ifnot: isAuthenticated -->
+        <button class="btn-facebook" data-bind="click: facebook"><i class="fa fa-facebook"></i> | Connect</button>
+        <button class="btn-google" data-bind="click: google"><i class="fa fa-google-plus"></i> | Connect</button>
+        <!-- /ko -->
     
+        <!-- ko if: isAuthenticated -->
         <form data-bind="submit: create">
-            <div class="form-group" data-bind="formGroupValidationCssClass : content().gameName.formGroupValidationCssClass">
-                <label for="gamename" data-bind="text: t('general.create-game-now')"></label>
+            <div class="form-group has-feedback" data-bind="formGroupValidationCssClass : content().gameName.formGroupValidationCssClass">
+                <label for="gamename" class="control-label" data-bind="text: t('general.create-game-now')"></label>
                 <input class="form-control" data-bind="value: content().gameName, valueUpdate: 'afterkeydown', attr: { placeholder: t('general.my-game') }">
-                <span class="help-block" data-bind="helpBlockValidationMessage: content().gameName.helpBlockValidationMessage"></span>
+                <span class="form-control-feedback" aria-hidden="true" data-bind="feedbackValidationCssClass: content().gameName.feedbackValidationCssClass"></span>
+                <span class="help-block sr-only" data-bind="helpBlockValidationMessage: content().gameName.helpBlockValidationMessage"></span>
             </div>
             <p><button type="submit" class="btn btn-lg btn-primary" data-bind="text: t('general.create-game')"></button></p>
         </form>
+        <!-- /ko -->
     </div>
 </div>

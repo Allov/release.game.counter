@@ -1,5 +1,5 @@
-define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next', 'typehead'],
-    function(template, navBar, router, ko, $, knockoutI18next) {
+define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next', 'scorekeeper-api', 'knockout-i18next-translator', 'typehead'],
+    function(template, navBar, router, ko, $, knockoutI18next, api, Translator) {
         'use strict';
 
         function NavBarViewModel() {
@@ -15,8 +15,16 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             
             self.changeLanguageFR = function() {
                 knockoutI18next.lng('fr');
-                
             };
+            
+            self.translator = new Translator();
+            self.t = self.translator.t;
+
+            self.username = api.user ? api.user.name.givenName : null;
+            
+            self.logout = function() {
+                window.location = '/api/logout';
+            }
             
             self.changeLanguageEN = function() {
                 knockoutI18next.lng('en');

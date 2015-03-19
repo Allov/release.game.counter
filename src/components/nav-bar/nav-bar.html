@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button data-bind="visible: menus().length > 0" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button data-bind="visible: menus().length > 0 || username" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,10 +12,13 @@
                 <li><a href="javascript:(0)" role="button" data-bind="click: toggleLanguage"><i class="fa fa-globe"></i> <span data-bind="text: nextLanguage"></span></a></li>
             </ul>
         </div>
-        <div id="navbar" class="collapse navbar-collapse" data-bind="visible: menus().length > 0">
-            <ul data-bind="foreach: menus" class="nav navbar-nav">
+        <div id="navbar" class="collapse navbar-collapse" data-bind="visible: menus().length > 0 || username">
+            <ul class="nav navbar-nav">
+                <!-- ko foreach: menus -->
                 <li data-bind="css: { active: $parent.isPageActive($data) }"><a data-bind="html: title ? title : title, attr: { href: url }"></a></li>
+                <!-- /ko -->
             </ul>
+            
             <!--
             <form class="navbar-form navbar-left" role="search">
                 <div id="bloodhound" class="form-group">
@@ -23,8 +26,16 @@
                 </div>
             </form>
             -->
-            <ul class="nav navbar-nav navbar-right hidden-xs">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- ko if: username -->
                 <li class="dropdown">
+                    <a href="javascript:(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> <span data-bind="text: username"></span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:(0)" data-bind="click: logout, text: t('general.logout')"></a></li>
+                    </ul>
+                </li>
+                <!-- /ko -->
+                <li class="dropdown hidden-xs">
                     <a href="javascript:(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-globe"></i> <span data-bind="text: currentLanguage"></span> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="javascript:(0)" data-bind="click: changeLanguageFR">Français</a></li>

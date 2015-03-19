@@ -9,9 +9,10 @@ define([
         'router',
         'dialoger',
         'modaler',
-        'knockout-i18next'
+        'knockout-i18next',
+        'scorekeeper-api'
     ],
-    function(ko, components, knockoutConfigurator, router, dialoger, modaler, knockoutI18next) {
+    function(ko, components, knockoutConfigurator, router, dialoger, modaler, knockoutI18next, api) {
         'use strict';
 
         knockoutConfigurator.configure();
@@ -50,16 +51,18 @@ define([
                 }
             });
             
-            components.registerComponents();
-    
-            ko.applyBindings({
-                router: router,
-                dialoger: dialoger,
-                modaler: modaler
+            api.init().then(function() {
+                components.registerComponents();
+        
+                ko.applyBindings({
+                    router: router,
+                    dialoger: dialoger,
+                    modaler: modaler
+                });
+        
+                dialoger.init();
+                modaler.init();
+                router.init();
             });
-    
-            dialoger.init();
-            modaler.init();
-            router.init();
         });
     });
