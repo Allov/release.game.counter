@@ -10,6 +10,7 @@ var io = require('socket.io');
 var GamesApi = require('./games-api');
 var FacebookApi = require('./facebook-api');
 var GoogleApi = require('./google-api');
+var AccountApi = require('./account-api');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -33,8 +34,9 @@ function Server() {
     this.httpServer = http.Server(this.expressApp);
     this.io = io(this.httpServer);
     var api = new GamesApi(this.io);
-    var facebook = new FacebookApi(this.expressApp);
-    var google = new GoogleApi(this.expressApp);
+    var account = new AccountApi();
+    var facebook = new FacebookApi(this.expressApp, account);
+    var google = new GoogleApi(this.expressApp, account);
 
     this.expressApp.get('/api/games/most-popular', function(req, res) {
         var games = api.mostPopularGames(4);

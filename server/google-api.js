@@ -1,7 +1,7 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 
-var Google = function(app) {
+var Google = function(app, account) {
     passport.serializeUser(function(user, done) {
       done(null, user);
     });
@@ -15,6 +15,10 @@ var Google = function(app) {
             realm: 'http://localhost:1337/'
         },
         function(identifier, profile, done) {
+            account.createOrUpdate({
+                id: identifier,
+                name: profile.name.givenName
+            });
             return done(null, profile);
         }));
 
