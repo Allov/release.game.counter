@@ -8,6 +8,13 @@ var morgan = require('morgan');
 var gutil = require('gulp-util');
 var io = require('socket.io');
 var GamesApi = require('./games-api');
+var FacebookApi = require('./facebook-api');
+var GoogleApi = require('./google-api');
+var AccountApi = require('./account-api');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
 
 function Server() {
     this.expressApp = express();
@@ -18,20 +25,19 @@ function Server() {
         skip: function(req, res) { return res.statusCode < 400; }
     }));
 
-
-    //TODO: Valeurs à partir des configs
-    //TODO: return static 404 html page (with middleware - voir apiServerSetup)
-    //TODO: return static 500 html page (with middleware - voir apiServerSetup)
-
-    // this.expressApp.get('/index.html', function (req, res) {
-    //     //Trap by middleware to return static 404 html page
-    //     res.status(404);
-    // });
+    this.expressApp.use(cookieParser());
+    this.expressApp.use(bodyParser());
+    this.expressApp.use(session({ secret: 'keyboard cat' }));
+    this.expressApp.use(passport.initialize());
+    this.expressApp.use(passport.session());
 
     this.httpServer = http.Server(this.expressApp);
     this.io = io(this.httpServer);
     var api = new GamesApi(this.io);
-    
+    var account = new AccountApi();
+    var facebook = new FacebookApi(this.expressApp, account);
+    var google = new GoogleApi(this.expressApp, account);
+
     this.expressApp.get('/api/games/most-popular', function(req, res) {
         var games = api.mostPopularGames(4);
         res.send(games);
@@ -46,7 +52,16 @@ function Server() {
         var game = api.getGameByName(req.params.name);
         res.send(game);
     });
-
+    
+    this.expressApp.get('/api/account', function(req, res) {
+        res.send(req.user);
+    });
+    
+    this.expressApp.get('/api/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+    
     this.expressApp.use(function(req, res, next) {
         if (path.extname(req.path).length > 0) {
             // normal static file request
@@ -58,8 +73,6 @@ function Server() {
         }
     });
 
-    //TODO: https://github.com/jonathandelgado/SublimeTodoReview (1)
-    //TODO: Ici on sert le contenu du site!? (meme serveur pour l'api et le site?.. pourquoi pas?) (2) @patate
     this.expressApp.use(express.static('./src'));
 }
 

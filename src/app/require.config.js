@@ -28,7 +28,8 @@ var require = {
         'knockout-mutex': 'bower_components/knockout-mutex/src/knockout-mutex',
         'knockout-i18next-translator': 'bower_components/knockout-i18next/src/knockout-i18next-translator',
         'typehead': 'bower_components/typehead.js/dist/typeahead.jquery',
-        'bloodhound': 'bower_components/typehead.js/dist/bloodhound'
+        'bloodhound': 'bower_components/typehead.js/dist/bloodhound',
+        'scorekeeper-api': 'components/scorekeeper-api/scorekeeper-api'
     },
     shim: {
         'bootstrap': {
