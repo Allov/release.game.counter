@@ -1,9 +1,9 @@
 {
     "general": {
         "create-game": "Créer une partie",
-        "create-game-now": "Créer une partie MAINTENANT!",
+        "create-game-now": "Créez une partie MAINTENANT!",
         "my-game": "Ma partie",
-        "slogan": "Conserver le score d'une partie avec des amis pendant qu'ils regardent la progression sur leur téléphone!",
+        "slogan": "Conservez le score d'une partie avec des amis pendant qu'ils regardent la progression sur leur téléphone!",
         "reset-score": "Réinitialiser le score",
         "add-player": "Ajouter un joueur",
         "name": "Nom",
