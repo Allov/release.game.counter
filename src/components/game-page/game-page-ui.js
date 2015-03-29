@@ -44,12 +44,10 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             });
 
             self.socket.on('user-joined', function(data) {
-                console.log('User [' + data.user.name + '] joined the game.');
                 self.viewerCount(data.viewers.length);
             });
 
             self.socket.on('user-left', function(data) {
-                console.log('User [' + data.user.name + '] joined the game.');
                 self.viewerCount(data.viewers.length);
             });
 
@@ -103,6 +101,8 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
                     return plyr.score();
                 }).score();
 
+                updateServerGameData(self.socket, self.players);
+
                 if (max == min) {
                     return;
                 }
@@ -117,16 +117,16 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
                 }).forEach(function(plyr) {
                     plyr.isLosing(true);
                 });
-
-                updateServerGameData(self.socket, self.players);
             });
         };
 
         function reset(self) {
             var self = this;
-            _.forEach(self.players(), function(plyr) {
-                plyr.score(0);
-            });
+            self.players([]);
+
+            // _.forEach(self.players(), function(plyr) {
+            //     plyr.score(0);
+            // });
         };
 
         function updateServerGameData(socket, players) {

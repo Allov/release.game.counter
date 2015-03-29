@@ -145,6 +145,8 @@ var GameIo = function(io) {
                         });
                     }
 
+                    console.log(gameData);
+
                     joinedGame.game.players = gameData;
 
                     io.to(joinedGame.name).emit('game-data-update', gameData);
