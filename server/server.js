@@ -7,77 +7,49 @@ var path = require('path');
 var morgan = require('morgan');
 var gutil = require('gulp-util');
 var io = require('socket.io');
-var GamesApi = require('./games-api');
-var FacebookApi = require('./facebook-api');
-var GoogleApi = require('./google-api');
-var AccountApi = require('./account-api');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var passport = require('passport');
+var controllers = require('./controllers');
+var ios = require('./ios');
+var database = require('./db-connection');
 
 function Server() {
-    this.expressApp = express();
+
+    var self = this;
+
+    self.expressApp = express();
 
     //https://www.npmjs.com/package/morgan
-    //this.expressApp.use(morgan('dev'));
-    this.expressApp.use(morgan('combined', {
-        skip: function(req, res) { return res.statusCode < 400; }
+    //self.expressApp.use(morgan('dev'));
+    self.expressApp.use(morgan('combined', {
+        skip: function(req, res) {
+            return res.statusCode < 400;
+        }
     }));
 
-    this.expressApp.use(cookieParser());
-    this.expressApp.use(bodyParser());
-    this.expressApp.use(session({ secret: 'keyboard cat' }));
-    this.expressApp.use(passport.initialize());
-    this.expressApp.use(passport.session());
+    // setup socket.io
+    self.httpServer = http.Server(self.expressApp);
+    self.io = io(self.httpServer);
 
-    this.httpServer = http.Server(this.expressApp);
-    this.io = io(this.httpServer);
-    var api = new GamesApi(this.io);
-    var account = new AccountApi();
-    var facebook = new FacebookApi(this.expressApp, account);
-    var google = new GoogleApi(this.expressApp, account);
+    database.connect(function() {
+        controllers.configure(self.expressApp, self.io);
+        ios.configure(self.io);
 
-    this.expressApp.get('/api/games/most-popular', function(req, res) {
-        var games = api.mostPopularGames(4);
-        res.send(games);
-    });
-    
-    this.expressApp.get('/api/games/search/:term', function(req, res) {
-        var games = api.searchGames(req.params.term);
-        res.send(games);
-    });
-    
-    this.expressApp.get('/api/games/:name', function(req, res) {
-        var game = api.getGameByName(req.params.name);
-        res.send(game);
-    });
-    
-    this.expressApp.get('/api/account', function(req, res) {
-        res.send(req.user);
-    });
-    
-    this.expressApp.get('/api/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    });
-    
-    this.expressApp.use(function(req, res, next) {
-        if (path.extname(req.path).length > 0) {
-            // normal static file request
-            next();
-        } else {
-            // should force return `index.html` for angular.js
-            req.url = '/index.html';
-            next();
-        }
-    });
+        self.expressApp.use(function(req, res, next) {
+            if (path.extname(req.path).length > 0) {
+                // normal static file request
+                next();
+            } else {
+                // should force return `index.html` for angular.js
+                req.url = '/index.html';
+                next();
+            }
+        });
 
-    this.expressApp.use(express.static('./src'));
+        self.expressApp.use(express.static('./src'));
+    });
 }
 
 Server.prototype.start = function(callback) {
-    
+
     var server = this.httpServer.listen(configManager.get('port'), function() {
         var serverAddress = server.address();
         var serverHost = serverAddress.address === '0.0.0.0' || serverAddress.address === '::' ? 'localhost' : serverAddress.address;

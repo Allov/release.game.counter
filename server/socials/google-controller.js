@@ -1,25 +1,27 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 
-var Google = function(app, account) {
+var Google = function(app, accountsApi) {
     passport.serializeUser(function(user, done) {
       done(null, user);
     });
-    
+
     passport.deserializeUser(function(obj, done) {
       done(null, obj);
     });
-    
+
     passport.use(new GoogleStrategy({
             returnURL: 'http://localhost:1337/auth/google/callback',
             realm: 'http://localhost:1337/'
         },
         function(identifier, profile, done) {
-            account.createOrUpdate({
+            accountsApi.createOrUpdate({
                 id: identifier,
                 name: profile.name.givenName
             });
-            return done(null, profile);
+
+            console.log(profile);
+            return done(null, { id: identifier, profile: profile });
         }));
 
     app.get('/auth/google', passport.authenticate('google'));

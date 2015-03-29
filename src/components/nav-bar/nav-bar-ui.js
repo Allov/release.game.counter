@@ -8,46 +8,46 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             self.currentLanguage = ko.pureComputed(function() {
                 return knockoutI18next.lng() === 'fr' ? 'Français' : 'English';
             });
-            
+
             self.nextLanguage = ko.pureComputed(function() {
                 return knockoutI18next.lng() === 'fr' ? 'English' : 'Français';
             });
-            
+
             self.changeLanguageFR = function() {
                 knockoutI18next.lng('fr');
             };
-            
+
             self.translator = new Translator();
             self.t = self.translator.t;
 
-            self.username = api.user ? api.user.name.givenName : null;
-            
+            self.username = api.user ? api.user.profile.name.givenName : null;
+
             self.logout = function() {
-                window.location = '/api/logout';
+                api.logout();
             }
-            
+
             self.changeLanguageEN = function() {
                 knockoutI18next.lng('en');
             };
-            
+
             self.toggleLanguage = function() {
                 knockoutI18next.lng(knockoutI18next.lng() === 'fr' ? 'en' : 'fr');
             };
-            
+
             var games = new Bloodhound({
               datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               remote: '/api/games/search/%QUERY'
             });
-             
+
             games.initialize();
-             
+
             $('#bloodhound .typeahead').typeahead(null, {
               name: 'games',
               displayKey: 'value',
               source: games.ttAdapter()
             });
-            
+
             $(document).on('click','.navbar-collapse.in',function(e) {
                 if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
                     $(this).collapse('hide');

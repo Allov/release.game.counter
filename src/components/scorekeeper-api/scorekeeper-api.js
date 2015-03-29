@@ -1,9 +1,9 @@
 define(['jquery'],
     function($) {
         'use strict';
-        
+
         var api = {};
-        
+
         api.init = function() {
             return new $.Deferred(function(dfd) {
                 $.getJSON('/api/account', function(user) {
@@ -13,6 +13,12 @@ define(['jquery'],
                 });
             }).promise();
         };
-        
+
+        api.logout = function() {
+            $.post('/api/logout', function() {
+                window.location = '/';
+            });
+        }
+
         return api;
     });

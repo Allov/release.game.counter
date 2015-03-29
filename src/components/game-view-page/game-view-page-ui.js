@@ -1,25 +1,30 @@
 define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18next-translator'],
     function(template, ko, _, io, Translator) {
         'use strict';
-        
+
         var ViewModel = function(params, componentInfo) {
             var self = this;
-            
+
             self.translator = new Translator();
             self.t = self.translator.t;
 
+            self.name = params.activationData.game.name;
             self.players = ko.observableArray([]);
-            
+
             self.socket = params.activationData.socket;
-            
-            self.socket.on('user joined', function(user) {
-                console.log('User [' + user.name + '] joined the game.');
+
+            self.socket.on('user-joined', function(data) {
+                console.log('User [' + data.user.name + '] joined the game.');
             });
-            
+
+            self.socket.on('user-left', function(data) {
+                console.log('User [' + data.user.name + '] joined the game.');
+            });
+
             self.socket.on('end of game', function(data) {
                 console.log(data.reason);
             });
-            
+
             self.socket.on('disconnect', function() {
                console.log('disconnected');
             });
@@ -28,11 +33,11 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
                 updateGameData(self, gameData);
             });
 
-            if (params.activationData.user.gameData) {
-                updateGameData(self, params.activationData.user.gameData);
+            if (params.activationData.game.players) {
+                updateGameData(self, params.activationData.game.players);
             }
         };
-        
+
         ViewModel.prototype.dispose = function() {
             var self = this;
 
@@ -42,7 +47,6 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
         function updateGameData(self, gameData) {
             gameData = _.sortBy(gameData, 'score').reverse();
             self.players(gameData);
-            console.log(self.players());
         }
 
         return {

@@ -1,11 +1,11 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-var Facebook = function(app) {
+var Facebook = function(app, accountsApi) {
     passport.serializeUser(function(user, done) {
       done(null, user);
     });
-    
+
     passport.deserializeUser(function(obj, done) {
       done(null, obj);
     });
@@ -16,6 +16,8 @@ var Facebook = function(app) {
             callbackURL: 'http://localhost:1337/auth/facebook/callback'
         },
         function(accessToken, refreshToken, profile, done) {
+
+            // create account
             done(null, profile);
         }));
 
