@@ -29,6 +29,9 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             self.t = self.translator.t;
 
             self.socket = params.activationData.socket;
+            self.connected = ko.observable(self.socket.connected);
+            console.log(params.activationData.game);
+            self.viewerCount = ko.observable(params.activationData.game.viewers.length);
 
             self.reset = reset;
 
@@ -40,12 +43,14 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
                 addPlayer(self, plyr.name, plyr.score, true);
             });
 
-            self.socket.on('user-joined', function(user) {
-                console.log('User [' + user ? user.name : 'Anonymous' + '] joined the game.');
+            self.socket.on('user-joined', function(data) {
+                console.log('User [' + data.user.name + '] joined the game.');
+                self.viewerCount(data.viewers.length);
             });
 
-            self.socket.on('user-left', function(user) {
-                console.log('User [' + user ? user.name : 'Anonymous' + '] joined the game.');
+            self.socket.on('user-left', function(data) {
+                console.log('User [' + data.user.name + '] joined the game.');
+                self.viewerCount(data.viewers.length);
             });
 
             self.socket.on('end-of-game', function(data) {
@@ -54,6 +59,11 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
 
             self.socket.on('disconnect', function() {
                 console.log('disconnected');
+                self.connected(false);
+            });
+
+            self.socket.on('connect', function() {
+                self.connected(true);
             });
 
             self.players.subscribe(function(players) {

@@ -2,10 +2,29 @@
 @import "../bower_components/bootstrap/less/bootstrap.less";
 @import "../bower_components/fontawesome/less/font-awesome.less";
 @import "./variables.less";
-
 // Global custom styles
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     padding-top: 65px;
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.container .text-muted {
+    margin: 20px 0;
 }
 
 //https://github.com/angular-ui/bootstrap/issues/2925
@@ -13,7 +32,8 @@ body {
     bottom: 0;
 }
 
-.score, .view-name {
+.score,
+.view-name {
     font-weight: 600;
     font-size: 30px;
 }
@@ -21,7 +41,6 @@ body {
 .winning {
     color: #f0ad4e;
 }
-
 
 .losing {
     color: #d9534f;
@@ -31,8 +50,8 @@ body {
     display: table-cell !important;
     width: 30px;
 }
-
 /* Main marketing message and sign up button */
+
 .jumbotron {
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
@@ -59,7 +78,7 @@ body {
     background: #E14107;
     border-color: #D03000;
     font-size: 14px !important;
-    &:hover,&:focus {
+    &:hover, &:focus {
         background: #D03000;
         border-color: #E14107;
     }
@@ -71,9 +90,10 @@ body {
     background: #3B5998;
     border-color: #335190;
     font-size: 14px !important;
-    &:hover,&:focus {
+    &:hover, &:focus {
         background: #335190;
         border-color: #3B5998;
     }
 }
+
 // Components

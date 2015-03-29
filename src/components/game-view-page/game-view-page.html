@@ -1,4 +1,5 @@
 <div class="container">
+    <!-- ko if: connected -->
     <h1 data-bind="text: name"></h1>
     <table class="table">
         <tbody data-bind="foreach: players">
@@ -8,4 +9,15 @@
             </tr>
         </tbody>
     </table>
+    <!-- /ko -->
+    <!-- ko ifnot: connected -->
+    <div class="alert alert-danger" role="alert" data-bind="text: t('general.disconnected')"></div>
+    <!-- /ko -->
 </div>
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted"><i class="fa fa-users"></i><span class="sr-only" data-bind="text: t('general.viewerCount')"></span> <span data-bind="text: viewerCount"></span></p>
+    </div>
+</footer>
+
+

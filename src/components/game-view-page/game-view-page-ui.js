@@ -12,13 +12,17 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
             self.players = ko.observableArray([]);
 
             self.socket = params.activationData.socket;
+            self.connected = ko.observable(self.socket.connected);
+            self.viewerCount = ko.observable(params.activationData.game.viewers.length);
 
             self.socket.on('user-joined', function(data) {
                 console.log('User [' + data.user.name + '] joined the game.');
+                self.viewerCount(data.viewers.length);
             });
 
             self.socket.on('user-left', function(data) {
                 console.log('User [' + data.user.name + '] joined the game.');
+                self.viewerCount(data.viewers.length);
             });
 
             self.socket.on('end of game', function(data) {
@@ -27,6 +31,11 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
 
             self.socket.on('disconnect', function() {
                console.log('disconnected');
+               self.connected(false);
+            });
+
+            self.socket.on('connect', function() {
+                self.connected(true);
             });
 
             self.socket.on('game-data-update', function(gameData) {

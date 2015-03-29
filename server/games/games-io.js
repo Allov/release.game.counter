@@ -45,13 +45,14 @@ var GameIo = function(io) {
         });
 
         if (_.isEmpty(leftGame.viewers)) {
+            console.log('No longer tracking game ' + leftGame.name);
             _.remove(self.games, function(g) {
                 return g == leftGame;
             });
         } else {
-            var leftUser = user.logged_in ? {
-                name: user.name
-            } : null;
+            var leftUser = {
+                name: user.profile ? user.profile.name.givenName : 'Anonymous'
+            };
             io.to(leftGame.name).emit('user-left', {
                 user: leftUser,
                 viewers: _.map(leftGame.viewers, function(v) {
@@ -156,25 +157,28 @@ var GameIo = function(io) {
             socket: socket
         });
 
-        var joinedUser = user.logged_in ? {
-            name: user.name
-        } : null;
+        var joinedUser = {
+            name: user.profile ? user.profile.name.givenName : 'Anonymous'
+        };
+
+        var viewers = _.map(joinedGame.viewers, function(v) {
+            return {
+                id: v.user.id,
+                name: v.user.name || 'Anonymous'
+            };
+        });
 
         var joinedData = {
             user: joinedUser,
-            viewers: _.map(joinedGame.viewers, function(v) {
-                return {
-                    id: v.user.id,
-                    name: v.user.name || 'Anonymous'
-                };
-            })
+            viewers: viewers
         };
 
         io.to(joinedGame.name).emit('user-joined', joinedData);
         io.to(socket.id).emit('joined', {
             name: joinedGame.name,
             isAdmin: isAdmin,
-            players: joinedGame.game.players
+            players: joinedGame.game.players,
+            viewers: viewers
         });
     }
 };
