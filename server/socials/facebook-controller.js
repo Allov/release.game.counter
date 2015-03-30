@@ -3,11 +3,11 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 
 var Facebook = function(app, accountsApi) {
     passport.serializeUser(function(user, done) {
-      done(null, user);
+        done(null, user);
     });
 
     passport.deserializeUser(function(obj, done) {
-      done(null, obj);
+        done(null, obj);
     });
 
     passport.use(new FacebookStrategy({
@@ -18,16 +18,22 @@ var Facebook = function(app, accountsApi) {
         function(accessToken, refreshToken, profile, done) {
 
             // create account
-            done(null, profile);
+            done(null, {
+                id: profile.id,
+                profile: profile
+            });
         }));
 
     app.get('/auth/facebook', passport.authenticate('facebook'));
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/auth/facebook' }),
-            function(req, res) {
-                // Successful authentication, redirect home.
-                res.redirect('/');
-            });
+        passport.authenticate('facebook', {
+            successRedirect: '/',
+            failureRedirect: '/auth/facebook'
+        }),
+        function(req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
 };
 
 module.exports = Facebook;
