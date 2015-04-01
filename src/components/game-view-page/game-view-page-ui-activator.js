@@ -6,24 +6,21 @@ define(['socketio'],
 
         };
 
-        GameViewActivator.prototype.activate = function(matchedRoute) {
+        GameViewActivator.prototype.activate = function(context) {
             var deferred = new $.Deferred();
-
-            // Here would be a good place to display a loading message.
-            console.log('connecting...');
 
             var socket = io.connect();
 
             socket.on('connect', function() {
-                console.log('connected.');
-                socket.emit('join', {game: matchedRoute.params[0].game})
+                socket.emit('join', {
+                    game: context.route.urlParams[0].game
+                })
             });
 
             socket.on('joined', function(game) {
-                deferred.resolve({
-                    game: game,
-                    socket: socket
-                });
+                context.game = game;
+                context.socket = socket;
+                deferred.resolve();
             });
 
 

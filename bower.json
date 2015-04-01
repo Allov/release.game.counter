@@ -32,6 +32,7 @@
     "typehead.js": "~0.10.5"
   },
   "resolutions": {
-    "knockout-utilities": "^0.2.0"
+    "knockout-utilities": "^0.2.0",
+    "knockout-router": "^0.2.4"
   }
 }

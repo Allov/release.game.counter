@@ -20,7 +20,7 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             };
         };
 
-        var ViewModel = function(params, componentInfo) {
+        var ViewModel = function(context, componentInfo) {
             var self = this;
 
             self.players = ko.observableArray([]);
@@ -28,10 +28,9 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             self.translator = new Translator();
             self.t = self.translator.t;
 
-            self.socket = params.activationData.socket;
+            self.socket = context.socket;
             self.connected = ko.observable(self.socket.connected);
-            console.log(params.activationData.game);
-            self.viewerCount = ko.observable(params.activationData.game.viewers.length);
+            self.viewerCount = ko.observable(context.game.viewers.length);
 
             self.reset = reset;
 
@@ -39,7 +38,7 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
                 addPlayer(self);
             };
 
-            _.forEach(params.activationData.game.players, function(plyr) {
+            _.forEach(context.game.players, function(plyr) {
                 addPlayer(self, plyr.name, plyr.score, true);
             });
 
@@ -56,7 +55,6 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             });
 
             self.socket.on('disconnect', function() {
-                console.log('disconnected');
                 self.connected(false);
             });
 
@@ -142,8 +140,8 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
 
         return {
             viewModel: {
-                createViewModel: function(params, componentInfo) {
-                    return new ViewModel(params, componentInfo);
+                createViewModel: function(context, componentInfo) {
+                    return new ViewModel(context, componentInfo);
                 }
             },
             template: template

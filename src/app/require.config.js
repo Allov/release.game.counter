@@ -17,9 +17,7 @@ var require = {
         'knockout-validation': 'bower_components/knockout-validation/dist/knockout.validation',
         'dialoger': 'bower_components/knockout-dialoger/src/dialoger',
         'modaler': 'bower_components/knockout-modaler/src/modaler',
-        'router': 'bower_components/knockout-router/src/router',
         'knockout-utilities': 'bower_components/knockout-utilities/src/knockout-utilities',
-        'router-event': 'bower_components/knockout-router/src/router-event',
         'router-state': 'bower_components/knockout-router-state-push/src/router-state-push',
         'nav-bar': 'components/nav-bar/nav-bar',
         'socketio': 'bower_components/socket.io-client/socket.io',
@@ -31,6 +29,11 @@ var require = {
         'bloodhound': 'bower_components/typehead.js/dist/bloodhound',
         'scorekeeper-api': 'components/scorekeeper-api/scorekeeper-api'
     },
+    packages: [{
+        name: 'router',
+        location: 'bower_components/knockout-router/src', // default 'packagename'
+        main: 'router' // default 'main'
+    }],
     shim: {
         'bootstrap': {
             deps: ['jquery']

@@ -2,35 +2,28 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
     function(template, ko, _, io, Translator) {
         'use strict';
 
-        var ViewModel = function(params, componentInfo) {
+        var ViewModel = function(context, componentInfo) {
             var self = this;
 
             self.translator = new Translator();
             self.t = self.translator.t;
 
-            self.name = params.activationData.game.name;
+            self.name = context.game.name;
             self.players = ko.observableArray([]);
 
-            self.socket = params.activationData.socket;
+            self.socket = context.socket;
             self.connected = ko.observable(self.socket.connected);
-            self.viewerCount = ko.observable(params.activationData.game.viewers.length);
+            self.viewerCount = ko.observable(context.game.viewers.length);
 
             self.socket.on('user-joined', function(data) {
-                console.log('User [' + data.user.name + '] joined the game.');
                 self.viewerCount(data.viewers.length);
             });
 
             self.socket.on('user-left', function(data) {
-                console.log('User [' + data.user.name + '] joined the game.');
                 self.viewerCount(data.viewers.length);
             });
 
-            self.socket.on('end of game', function(data) {
-                console.log(data.reason);
-            });
-
             self.socket.on('disconnect', function() {
-               console.log('disconnected');
                self.connected(false);
             });
 
@@ -42,8 +35,8 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
                 updateGameData(self, gameData);
             });
 
-            if (params.activationData.game.players) {
-                updateGameData(self, params.activationData.game.players);
+            if (context.game.players) {
+                updateGameData(self, context.game.players);
             }
         };
 
@@ -60,8 +53,8 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockou
 
         return {
             viewModel: {
-                createViewModel: function(params, componentInfo) {
-                    return new ViewModel(params, componentInfo);
+                createViewModel: function(context, componentInfo) {
+                    return new ViewModel(context, componentInfo);
                 }
             },
             template: template
