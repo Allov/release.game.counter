@@ -44,18 +44,20 @@ function Server() {
             }
         });
 
-        self.expressApp.use(express.static('./src'));
+        self.expressApp.use(express.static(configManager.get('expressPath')));
     });
 }
 
 Server.prototype.start = function(callback) {
+
+    console.log(configManager.get('port'));
 
     var server = this.httpServer.listen(configManager.get('port'), function() {
         var serverAddress = server.address();
         var serverHost = serverAddress.address === '0.0.0.0' || serverAddress.address === '::' ? 'localhost' : serverAddress.address;
         var url = 'http://' + serverHost + ':' + serverAddress.port + '/';
 
-        gutil.log('Started ' + gutil.colors.green('dev') + ' server at ' + gutil.colors.cyan(url));
+        gutil.log('Started ' + gutil.colors.green(process.env.NODE_ENV) + ' server at ' + gutil.colors.cyan(url));
 
         callback(null, url);
     });

@@ -1,3 +1,4 @@
+var configManager = require('./../../configuration/configManager');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -11,11 +12,15 @@ var Facebook = function(app, accountsApi) {
     });
 
     passport.use(new FacebookStrategy({
-            clientID: '1564439337149572', //'1564434740483365',
-            clientSecret: '***REMOVED***', //'***REMOVED***',
-            callbackURL: 'http://localhost:1337/auth/facebook/callback'
+            clientID: configManager.get('facebook-clientId'),
+            clientSecret: configManager.get('facebook-clientSecret'),
+            callbackURL: 'http://' + configManager.get('hostname') + '/auth/facebook/callback'
         },
         function(accessToken, refreshToken, profile, done) {
+            accountsApi.createOrUpdate({
+                id: profile.id,
+                name: profile.name.givenName
+            });
 
             // create account
             done(null, {

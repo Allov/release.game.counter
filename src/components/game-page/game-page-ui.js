@@ -32,6 +32,8 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18
             self.connected = ko.observable(self.socket.connected);
             self.viewerCount = ko.observable(context.game.viewers.length);
 
+            self.name = ko.observable(context.game.name);
+
             self.reset = reset;
 
             self.addPlayer = function() {

@@ -1,3 +1,9 @@
 {
-    "port": 1339
+    "port": 80,
+    "facebook-clientId": "1564434740483365",
+    "facebook-clientSecret": "***REMOVED***",
+    "google-clientId": "722299133858-ukm0olcbva5gfv720irskvabkmkn08c8.apps.googleusercontent.com",
+    "google-clientSecret": "***REMOVED***",
+    "hostname": "localhost:1337",
+    "expressPath": "./dist"
 }

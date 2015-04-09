@@ -10,29 +10,29 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
 
         Components.prototype.registerComponents = function() {
             // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
-            
+
             //Register components, dialogs & pages here
             koUtilities.registerComponent('nav-bar');
-            
+
             router.registerPage('home');
             router.addRoute('', {
-                title: 'Home',
+                pageTitle: 'Scorekeepr',
                 pageName: 'home'
             });
-            
+
             router.registerPage('game', {
                 withActivator: true
             });
             router.addRoute('/game/:game:', {
-                title: 'Game',
+                pageTitle: 'Scorekeepr Game',
                 pageName: 'game'
             });
-            
+
             router.registerPage('game-view', {
                 withActivator: true
             });
             router.addRoute('/game/:game:/view', {
-                title: 'Viewing game',
+                pageTitle: 'Scorekeepr Viewing Game',
                 pageName: 'game-view'
             });
         };

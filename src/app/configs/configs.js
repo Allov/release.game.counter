@@ -16,9 +16,9 @@
 define(['jquery', 'configs-transforms'],
     function($, transforms) {
         'use strict';
-        
+
         var baseConfigs =  {
-        
+
         };
 
     	return $.extend(baseConfigs, transforms);

@@ -1,4 +1,10 @@
 {
     "port": 1337,
-    "sourceMap": true
+    "sourceMap": true,
+    "facebook-clientId": "1564439337149572",
+    "facebook-clientSecret": "***REMOVED***",
+    "google-clientId": "722299133858-31mkd2nadsmendu3f2frcetrc53joa77.apps.googleusercontent.com",
+    "google-clientSecret": "***REMOVED***",
+    "hostname": "localhost:1337",
+    "expressPath": "./src"
 }
