@@ -17,6 +17,8 @@
         "game-name-required": "The name of the game is required.",
         "logout": "Logout",
         "connect": "Connect",
-        "disconnected": "Oops! You are now disconnected from the server. We'll try to reconnect you, but you could also refresh the page."
+        "disconnected": "Oops! You are now disconnected from the server. We'll try to reconnect you, but you could also refresh the page.",
+        "page-not-found": "Page not found",
+        "trying-create-game": "Are you trying to <a href=\"/\">create</a> a game?"
     }
 }

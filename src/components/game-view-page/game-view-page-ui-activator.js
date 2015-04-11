@@ -1,5 +1,5 @@
-define(['socket-manager'],
-    function(socket) {
+define(['socket-manager', 'router'],
+    function(socket, router) {
         'use strict';
 
         var GameViewActivator = function() {
@@ -16,7 +16,18 @@ define(['socket-manager'],
                     join(context);
                 }
 
+                socket.once('game-not-found', function() {
+                    dfd.reject(404);
+                    socket.disconnect();
+                });
+
                 socket.once('joined', function(game) {
+                    if (game.isAdmin) {
+                        dfd.reject(302);
+                        router.navigate('/game/' + game.slug + '/' + game.id)
+                        return;
+                    }
+
                     context.game = game;
                     context.socket = socket;
                     dfd.resolve();

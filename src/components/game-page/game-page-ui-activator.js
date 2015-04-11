@@ -17,12 +17,17 @@ define(['router', 'socket-manager'],
                     join(context);
                 }
 
+                socket.once('game-not-found', function() {
+                    dfd.reject(404);
+                    socket.disconnect();
+                });
+
                 socket.once('joined', function(game) {
                     // Pass the loaded data to the component.
                     if (!game.isAdmin) {
                         dfd.reject(302);
 
-                        router.navigate(window.location.pathname + '/view/');
+                        router.navigate('/game/' + context.route.urlParams[0].game);
                         return;
                     }
 
@@ -40,7 +45,8 @@ define(['router', 'socket-manager'],
 
         function join(context) {
             socket.emit('join', {
-                game: context.route.urlParams[0].game
+                game: context.route.urlParams[0].game,
+                id: context.route.urlParams[0].id
             });
         }
 

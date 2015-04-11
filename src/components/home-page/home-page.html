@@ -16,7 +16,7 @@
                 <span class="form-control-feedback" aria-hidden="true" data-bind="feedbackValidationCssClass: content().gameName.feedbackValidationCssClass"></span>
                 <span class="help-block sr-only" data-bind="helpBlockValidationMessage: content().gameName.helpBlockValidationMessage"></span>
             </div>
-            <p><button type="submit" class="btn btn-lg btn-primary" data-bind="text: t('general.create-game')"></button></p>
+            <p><button type="submit" class="btn btn-lg btn-primary" data-bind="asyncClick: create, asyncClickHtml: '&lt;i class=&quot;fa fa-spinner fa-spin&quot;&gt;&lt;/i&gt; ' + t('general.waiting'), text: t('general.create-game')"></button></p>
         </form>
         <!-- /ko -->
     </div>

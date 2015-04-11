@@ -7,7 +7,8 @@ define([
         'bower_components/knockout-bootstrap-validation/src/binding-handlers/help-block-validation-message',
         'bower_components/knockout-bootstrap-validation/src/binding-handlers/feedback-validation-css-class',
         'bower_components/knockout-bootstrap-validation/src/extenders/bootstrap-validation',
-        'bower_components/knockout-bootstrap-validation/src/extenders/success-validating-message'
+        'bower_components/knockout-bootstrap-validation/src/extenders/success-validating-message',
+        'bower_components/knockout-async-click/src/async-click-binding-handler'
     ],
     function() {
         'use strict';

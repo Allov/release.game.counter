@@ -17,6 +17,8 @@
         "game-name-required": "Le nom de la partie est requis.",
         "logout": "Se déconnecter",
         "connect": "Connecter",
-        "disconnected": "Oops! Vous êtes déconnecté du serveur. Nous allons tenter de vous reconnecter, mais vous pouvez aussi tanter de rafraîchir la page."
+        "disconnected": "Oops! Vous êtes déconnecté du serveur. Nous allons tenter de vous reconnecter, mais vous pouvez aussi tanter de rafraîchir la page.",
+        "page-not-found": "Page introuvable",
+        "trying-create-game": "Est-ce que vous tentez de <a href=\"/\">créer</a> une partie?"
     }
 }

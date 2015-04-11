@@ -25,7 +25,8 @@ var require = {
         'knockout-mutex': 'bower_components/knockout-mutex/src/knockout-mutex',
         'knockout-i18next-translator': 'bower_components/knockout-i18next/src/knockout-i18next-translator',
         'scorekeeper-api': 'components/scorekeeper-api/scorekeeper-api',
-        'socket-manager': 'components/socket-manager/socket-manager'
+        'socket-manager': 'components/socket-manager/socket-manager',
+        'async-click-state': 'bower_components/knockout-async-click/src/async-click-state'
     },
     packages: [{
         name: 'router',
