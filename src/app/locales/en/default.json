@@ -16,6 +16,7 @@
         "player": "Player ",
         "game-name-required": "The name of the game is required.",
         "logout": "Logout",
+        "connect": "Connect",
         "disconnected": "Oops! You are now disconnected from the server. We'll try to reconnect you, but you could also refresh the page."
     }
 }
