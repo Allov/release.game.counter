@@ -6,8 +6,6 @@ var path = require('path');
 function ConfigManager() {
 	var fileName;
 
-    console.log('NODE_ENV: ' + process.env.NODE_ENV);
-
     switch (process.env.NODE_ENV) {
         case 'tests':
             fileName = 'testConfig.json';
