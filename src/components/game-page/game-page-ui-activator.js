@@ -1,5 +1,5 @@
-define(['socketio'],
-    function(io) {
+define([],
+    function() {
         'use strict';
 
         var GameActivator = function() {

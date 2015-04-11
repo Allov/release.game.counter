@@ -10,6 +10,7 @@ var io = require('socket.io');
 var controllers = require('./controllers');
 var ios = require('./ios');
 var database = require('./db-connection');
+var argv = require('yargs').argv;
 
 function Server() {
 
@@ -63,4 +64,10 @@ Server.prototype.start = function(callback) {
     });
 };
 
-module.exports = exports = new Server();
+if (argv.standalone) {
+    new Server().start(function(a, url) {
+        gutil.log(gutil.colors.yellow('Started a standalone server at ' + url));
+    });
+} else {
+    module.exports = exports = new Server();
+}

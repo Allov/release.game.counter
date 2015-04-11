@@ -1,5 +1,5 @@
-define(['text!./game-view-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18next-translator'],
-    function(template, ko, _, io, Translator) {
+define(['text!./game-view-page.html', 'knockout', 'lodash', 'knockout-i18next-translator'],
+    function(template, ko, _, Translator) {
         'use strict';
 
         var ViewModel = function(context, componentInfo) {

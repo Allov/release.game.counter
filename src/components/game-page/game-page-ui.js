@@ -1,5 +1,5 @@
-define(['text!./game-page.html', 'knockout', 'lodash', 'socketio', 'knockout-i18next-translator'],
-    function(template, ko, _, io, Translator) {
+define(['text!./game-page.html', 'knockout', 'lodash', 'knockout-i18next-translator'],
+    function(template, ko, _, Translator) {
         'use strict';
 
         var Player = function(name, score) {

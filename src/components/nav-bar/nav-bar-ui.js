@@ -1,4 +1,4 @@
-define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next', 'scorekeeper-api', 'knockout-i18next-translator', 'typehead'],
+define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knockout-i18next', 'scorekeeper-api', 'knockout-i18next-translator'],
     function(template, navBar, router, ko, $, knockoutI18next, api, Translator) {
         'use strict';
 
@@ -33,20 +33,6 @@ define(['text!./nav-bar.html','nav-bar', 'router', 'knockout', 'jquery', 'knocko
             self.toggleLanguage = function() {
                 knockoutI18next.lng(knockoutI18next.lng() === 'fr' ? 'en' : 'fr');
             };
-
-            var games = new Bloodhound({
-              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
-              remote: '/api/games/search/%QUERY'
-            });
-
-            games.initialize();
-
-            $('#bloodhound .typeahead').typeahead(null, {
-              name: 'games',
-              displayKey: 'value',
-              source: games.ttAdapter()
-            });
 
             $(document).on('click','.navbar-collapse.in',function(e) {
                 if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
