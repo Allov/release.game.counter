@@ -51,8 +51,6 @@ function Server() {
 
 Server.prototype.start = function(callback) {
 
-    console.log(configManager.get('port'));
-
     var server = this.httpServer.listen(configManager.get('port'), function() {
         var serverAddress = server.address();
         var serverHost = serverAddress.address === '0.0.0.0' || serverAddress.address === '::' ? 'localhost' : serverAddress.address;

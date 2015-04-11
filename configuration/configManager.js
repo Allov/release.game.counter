@@ -13,7 +13,6 @@ function ConfigManager() {
             fileName = 'testConfig.json';
             break;
         case 'production':
-            console.log('case!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
             fileName = 'productionConfig.json';
             break;
         default:
