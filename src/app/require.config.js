@@ -20,12 +20,12 @@ var require = {
         'knockout-utilities': 'bower_components/knockout-utilities/src/knockout-utilities',
         'router-state': 'bower_components/knockout-router-state-push/src/router-state-push',
         'nav-bar': 'components/nav-bar/nav-bar',
-        //'socketio': 'bower_components/socket.io-client/socket.io',
         'knockout-i18next': 'bower_components/knockout-i18next/src/knockout-i18next',
         'i18next': 'bower_components/i18next/i18next.amd',
         'knockout-mutex': 'bower_components/knockout-mutex/src/knockout-mutex',
         'knockout-i18next-translator': 'bower_components/knockout-i18next/src/knockout-i18next-translator',
-        'scorekeeper-api': 'components/scorekeeper-api/scorekeeper-api'
+        'scorekeeper-api': 'components/scorekeeper-api/scorekeeper-api',
+        'socket-manager': 'components/socket-manager/socket-manager'
     },
     packages: [{
         name: 'router',
