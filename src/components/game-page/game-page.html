@@ -17,6 +17,9 @@
         </div>
     </section>
     <!-- ko if: connected -->
+    <p class="text-muted pull-left">
+        <i class="fa fa-users"></i> <span data-bind="text: t('general.viewerCount')"></span> <span data-bind="text: viewerCount"></span>
+    </p>
     <div class="pull-right">
         <button type="button" class="btn btn-lg" data-toggle="collapse" data-target="#edit"><i class="fa fa-pencil"></i> <span class="hidden-xs hidden-sm" data-bind="text: t('general.edit-game-info')"></span></button>
         <button type="button" class="btn btn-warning btn-lg" data-bind="click: reset"><i class="fa fa-refresh"></i> <span class="hidden-xs hidden-sm" data-bind="text: t('general.reset-score')"></span></button>
@@ -53,8 +56,3 @@
     <div class="alert alert-danger" role="alert" data-bind="text: t('general.disconnected')"></div>
     <!-- /ko -->
 </form>
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted"><i class="fa fa-users"></i><span class="sr-only" data-bind="text: t('general.viewerCount')"></span> <span data-bind="text: viewerCount"></span></p>
-    </div>
-</footer>

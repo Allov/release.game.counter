@@ -2,6 +2,7 @@
     <!-- ko if: connected -->
     <h1 class="page-header" data-bind="text: name"></h1>
     <p data-bind="visible: description, text: description"></p>
+    <p class="text-muted"><i class="fa fa-users"></i><span class="sr-only" data-bind="text: t('general.viewerCount')"></span> <span data-bind="text: viewerCount"></span></p>
     <table class="table">
         <tbody data-bind="foreach: players">
             <tr>
@@ -15,10 +16,3 @@
     <div class="alert alert-danger" role="alert" data-bind="text: t('general.disconnected')"></div>
     <!-- /ko -->
 </div>
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted"><i class="fa fa-users"></i><span class="sr-only" data-bind="text: t('general.viewerCount')"></span> <span data-bind="text: viewerCount"></span></p>
-    </div>
-</footer>
-
-
