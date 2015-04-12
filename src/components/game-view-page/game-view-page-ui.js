@@ -8,7 +8,8 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'knockout-i18next-tr
             self.translator = new Translator();
             self.t = self.translator.t;
 
-            self.name = context.game.name;
+            self.name = ko.observable(context.game.name);
+            self.description = ko.observable(context.game.description);
             self.players = ko.observableArray([]);
 
             self.socket = context.socket;
@@ -33,6 +34,11 @@ define(['text!./game-view-page.html', 'knockout', 'lodash', 'knockout-i18next-tr
 
             self.socket.on('game-data-update', function(gameData) {
                 updateGameData(self, gameData);
+            });
+
+            self.socket.on('game-meta-updated', function(gameMeta) {
+                self.name(gameMeta.name);
+                self.description(gameMeta.description);
             });
 
             if (context.game.players) {

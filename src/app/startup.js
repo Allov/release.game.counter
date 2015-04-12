@@ -16,18 +16,18 @@ define([
         'use strict';
 
         knockoutConfigurator.configure();
-        
+
         var localStorage = window.localStorage;
         var language = (window.navigator.userLanguage || window.navigator.language);
         var defaultLanguage = 'en';
-        
+
         if (language) {
             defaultLanguage = language.indexOf('fr') > -1 ? 'fr' : 'en';
         }
-        
+
         if (localStorage) {
             var storedLanguage = localStorage.getItem("preferedLanguage");
-            
+
             if (storedLanguage) {
                 defaultLanguage = storedLanguage;
             } else {
@@ -50,19 +50,23 @@ define([
                     window.localStorage.setItem("preferedLanguage", value);
                 }
             });
-            
+
             api.init().then(function() {
                 components.registerComponents();
-        
+
                 ko.applyBindings({
                     router: router,
                     dialoger: dialoger,
                     modaler: modaler
                 });
-        
+
                 dialoger.init();
                 modaler.init();
                 router.init();
+
+                router.unknownRouteHandler = function() {
+                    router.navigate('/page-not-found');
+                };
             });
         });
     });

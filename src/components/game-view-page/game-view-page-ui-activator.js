@@ -1,5 +1,5 @@
-define([],
-    function() {
+define(['socket-manager', 'router'],
+    function(socket, router) {
         'use strict';
 
         var GameViewActivator = function() {
@@ -7,26 +7,39 @@ define([],
         };
 
         GameViewActivator.prototype.activate = function(context) {
-            var deferred = new $.Deferred();
+            return new $.Deferred(function(dfd) {
+                if (socket.disconnected) {
+                    socket.on('connect', function() {
+                        join(context);
+                    });
+                } else {
+                    join(context);
+                }
 
-            var socket = io.connect();
+                socket.once('game-not-found', function() {
+                    dfd.reject(404);
+                    socket.disconnect();
+                });
 
-            socket.on('connect', function() {
-                socket.emit('join', {
-                    game: context.route.urlParams[0].game
-                })
-            });
+                socket.once('joined', function(game) {
+                    if (game.isAdmin) {
+                        dfd.reject(302);
+                        router.navigate('/game/' + game.slug + '/' + game.id)
+                        return;
+                    }
 
-            socket.on('joined', function(game) {
-                context.game = game;
-                context.socket = socket;
-                deferred.resolve();
-            });
-
-
-
-            return deferred.promise();
+                    context.game = game;
+                    context.socket = socket;
+                    dfd.resolve();
+                });
+            }).promise();
         };
+
+        function join(context) {
+            socket.emit('join', {
+                game: context.route.urlParams[0].game
+            });
+        }
 
         return new GameViewActivator();
     });

@@ -30,9 +30,22 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'knockout-i18next-transla
 
             self.socket = context.socket;
             self.connected = ko.observable(self.socket.connected);
-            self.viewerCount = ko.observable(context.game.viewers.length);
 
-            self.name = ko.observable(context.game.name);
+            self.game = context.game;
+            self.viewerCount = ko.observable(self.game.viewers.length);
+
+            self.name = ko.observable(self.game.name).extend({
+                required: true
+            });
+
+            self.description = ko.observable(self.game.description);
+
+            self.gameFields = ko.validatedObservable({
+                name: self.name,
+                description: self.description
+            }).extend({
+                bootstrapValidation: {}
+            });
 
             self.reset = reset;
 
@@ -40,7 +53,7 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'knockout-i18next-transla
                 addPlayer(self);
             };
 
-            _.forEach(context.game.players, function(plyr) {
+            _.forEach(self.game.players, function(plyr) {
                 addPlayer(self, plyr.name, plyr.score, true);
             });
 
@@ -66,6 +79,26 @@ define(['text!./game-page.html', 'knockout', 'lodash', 'knockout-i18next-transla
 
             self.players.subscribe(function(players) {
                 updateServerGameData(self.socket, self.players);
+            });
+        };
+
+        ViewModel.prototype.save = function() {
+            var self = this;
+            self.gameFields.isValidAsync().then(function(valid) {
+                if (valid) {
+                    $.ajax({
+                        url: '/api/games/' + self.game.slug,
+                        type: 'PUT',
+                        dataType: 'json',
+                        data: {
+                            name: self.name(),
+                            description: self.description()
+                        },
+                        success: function(data) {
+                            $('#edit').collapse('toggle');
+                        }
+                    });
+                }
             });
         };
 

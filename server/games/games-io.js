@@ -17,7 +17,7 @@ var GameIo = function(io) {
     // register Socket IO events
     self.io.on('connection', function(socket) {
         socket.on('join', function(data) {
-            createOrJoinGame(data, socket);
+            joinGame(data, socket);
         });
 
         socket.on('disconnect', function() {
@@ -45,7 +45,7 @@ var GameIo = function(io) {
         });
 
         if (_.isEmpty(leftGame.viewers)) {
-            console.log('No longer tracking game ' + leftGame.name);
+            console.log('No longer tracking game ' + leftGame.slug);
             _.remove(self.games, function(g) {
                 return g == leftGame;
             });
@@ -53,7 +53,7 @@ var GameIo = function(io) {
             var leftUser = {
                 name: user.profile ? user.profile.name.givenName : 'Anonymous'
             };
-            io.to(leftGame.name).emit('user-left', {
+            io.to(leftGame.slug).emit('user-left', {
                 user: leftUser,
                 viewers: _.map(leftGame.viewers, function(v) {
                     return {
@@ -65,7 +65,7 @@ var GameIo = function(io) {
         }
     }
 
-    function createOrJoinGame(data, socket) {
+    function joinGame(data, socket) {
         var user = socket.request.user;
 
         if (!data || !data.game) {
@@ -73,46 +73,36 @@ var GameIo = function(io) {
             return;
         }
 
-        var gameName = data.game.toLowerCase();
+        var slug = data.game.toLowerCase();
 
         var isAdmin = false;
         var joinedGame = _.find(self.games, {
-            name: gameName
+            name: slug
         });
 
         if (!joinedGame) {
 
             Game.findOne({
-                name: gameName
+                slug: slug
             }, function(err, result) {
 
                 if (!result && !user.logged_in) {
                     io.to(socket.id).emit('game-not-found');
-                    console.log('Game ' + gameName + ' could not be found.');
+                    console.log('Game ' + slug + ' could not be found.');
                     return;
                 }
 
                 if (!result && user.logged_in) {
-                    var newGame = new Game({
-                        id: gameName,
-                        name: gameName,
-                        description: '',
-                        administratorId: user.id,
-                        players: []
-                    });
-
-                    newGame.save();
-                    console.log('Created a new game...');
-                    isAdmin = true;
-
-                    result = newGame;
+                    socket.emit('game-not-found');
+                    return;
                 } else {
                     isAdmin = result.administratorId == user.id;
-                    console.log('Resuming game ' + gameName + ', isAdmin: ' + isAdmin);
+                    console.log('Resuming game ' + slug + ', isAdmin: ' + isAdmin);
                 }
 
                 joinedGame = {
-                    name: gameName,
+                    id: result.id,
+                    slug: result.slug,
                     administratorId: result.administratorId,
                     game: result,
                     viewers: []
@@ -130,12 +120,12 @@ var GameIo = function(io) {
     }
 
     function initGame(io, socket, isAdmin, user, joinedGame) {
-        socket.join(joinedGame.name);
+        socket.join(joinedGame.slug);
 
         if (isAdmin) {
             socket.on('game-data', function(gameData) {
                 Game.findOneAndUpdate({
-                    id: joinedGame.name
+                    id: joinedGame.id
                 }, {
                     players: gameData
                 }, function(err) {
@@ -149,7 +139,7 @@ var GameIo = function(io) {
 
                     joinedGame.game.players = gameData;
 
-                    io.to(joinedGame.name).emit('game-data-update', gameData);
+                    io.to(joinedGame.slug).emit('game-data-update', gameData);
                 });
             });
         }
@@ -177,7 +167,10 @@ var GameIo = function(io) {
 
         io.to(joinedGame.name).emit('user-joined', joinedData);
         io.to(socket.id).emit('joined', {
-            name: joinedGame.name,
+            id: joinedGame.id,
+            slug: joinedGame.slug,
+            name: joinedGame.game.name,
+            description: joinedGame.game.description,
             isAdmin: isAdmin,
             players: joinedGame.game.players,
             viewers: viewers

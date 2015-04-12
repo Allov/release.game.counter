@@ -9,6 +9,10 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
         var Components = function() {};
 
         Components.prototype.registerComponents = function() {
+            router.registerPage('page-not-found');
+            router.addRoute('page-not-found', { pageName: 'page-not-found', title: 'Page not found' });
+            koUtilities.registerComponent('inline-textbox');
+            koUtilities.registerComponent('follow-bar');
             // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
 
             //Register components, dialogs & pages here
@@ -23,7 +27,7 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
             router.registerPage('game', {
                 withActivator: true
             });
-            router.addRoute('/game/:game:', {
+            router.addRoute('/game/{game}/{id}', {
                 pageTitle: 'Scorekeepr Game',
                 pageName: 'game'
             });
@@ -31,7 +35,7 @@ define(['knockout-utilities', 'router', 'dialoger', 'modaler', 'nav-bar'],
             router.registerPage('game-view', {
                 withActivator: true
             });
-            router.addRoute('/game/:game:/view', {
+            router.addRoute('/game/{game}', {
                 pageTitle: 'Scorekeepr Viewing Game',
                 pageName: 'game-view'
             });

@@ -7,7 +7,7 @@ var controllers = {
         new Accounts(app);
 
         var Games = require('./games/games-controller');
-        new Games(app);
+        new Games(app, io);
     }
 };
 

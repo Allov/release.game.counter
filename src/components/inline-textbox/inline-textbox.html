@@ -1,0 +1,14 @@
+<!-- ko ifnot: editing -->
+<button class="btn" data-bind="click: edit">
+    <!-- ko text: observable -->
+    <!-- /ko -->
+    <i class="fa fa-pencil-square-o"></i>
+</button>
+<!-- /ko -->
+<!-- ko if: editing -->
+<div class="form-group has-feedback" data-bind="formGroupValidationCssClass : observable.formGroupValidationCssClass">
+    <input type="text" class="form-control" data-bind="value: observable, event: { blur: edited }">
+    <span class="form-control-feedback" aria-hidden="true" data-bind="feedbackValidationCssClass: observable.feedbackValidationCssClass"></span>
+    <span class="help-block sr-only" data-bind="helpBlockValidationMessage: observable.helpBlockValidationMessage"></span>
+</div>
+<!-- /ko -->

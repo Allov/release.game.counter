@@ -1,5 +1,5 @@
-define([],
-    function() {
+define(['router', 'socket-manager'],
+    function(router, socket) {
         'use strict';
 
         var GameActivator = function() {
@@ -7,34 +7,48 @@ define([],
         };
 
         GameActivator.prototype.activate = function(context) {
-            var deferred = new $.Deferred();
+            return new $.Deferred(function(dfd) {
 
-            var socket = io.connect();
-
-            socket.on('connect', function() {
-                socket.emit('join', {
-                    game: context.route.urlParams[0].game
-                })
-            });
-
-            socket.on('joined', function(game) {
-                // Pass the loaded data to the component.
-                if (!game.isAdmin) {
-                    window.location = window.location + '/view';
+                if (socket.disconnected) {
+                    socket.on('connect', function() {
+                        join(context);
+                    });
+                } else {
+                    join(context);
                 }
 
-                context.game = game;
-                context.socket = socket;
+                socket.once('game-not-found', function() {
+                    dfd.reject(404);
+                    socket.disconnect();
+                });
 
-                deferred.resolve();
-            });
+                socket.once('joined', function(game) {
+                    // Pass the loaded data to the component.
+                    if (!game.isAdmin) {
+                        dfd.reject(302);
 
-            socket.on('error', function(err) {
-                console.log(err);
-            });
+                        router.navigate('/game/' + context.route.urlParams[0].game);
+                        return;
+                    }
 
-            return deferred.promise();
+                    context.game = game;
+                    context.socket = socket;
+
+                    dfd.resolve();
+                });
+
+                socket.on('disconnect', function() {
+                    console.log('disconnected...');
+                });
+            }).promise();
         };
+
+        function join(context) {
+            socket.emit('join', {
+                game: context.route.urlParams[0].game,
+                id: context.route.urlParams[0].id
+            });
+        }
 
         return new GameActivator();
     });

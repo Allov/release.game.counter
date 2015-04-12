@@ -2,12 +2,12 @@
     <div class="jumbotron">
         <h1>Scorekeepr</h1>
         <p class="lead" data-bind="text: t('general.slogan')"></p>
-        
+
         <!-- ko ifnot: isAuthenticated -->
-        <button class="btn-facebook" data-bind="click: facebook"><i class="btn-icon fa fa-facebook"></i>Connect</button>
-        <button class="btn-google" data-bind="click: google"><i class="btn-icon fa fa-google-plus"></i>Connect</button>
+        <button class="btn-facebook" data-bind="click: facebook"><i class="btn-icon fa fa-facebook"></i><span data-bind="text: t('general.connect')"></span></button>
+        <button class="btn-google" data-bind="click: google"><i class="btn-icon fa fa-google-plus"></i><span data-bind="text: t('general.connect')"></span></button>
         <!-- /ko -->
-    
+
         <!-- ko if: isAuthenticated -->
         <form data-bind="submit: create">
             <div class="form-group has-feedback" data-bind="formGroupValidationCssClass : content().gameName.formGroupValidationCssClass">
@@ -16,7 +16,7 @@
                 <span class="form-control-feedback" aria-hidden="true" data-bind="feedbackValidationCssClass: content().gameName.feedbackValidationCssClass"></span>
                 <span class="help-block sr-only" data-bind="helpBlockValidationMessage: content().gameName.helpBlockValidationMessage"></span>
             </div>
-            <p><button type="submit" class="btn btn-lg btn-primary" data-bind="text: t('general.create-game')"></button></p>
+            <p><button type="submit" class="btn btn-lg btn-primary" data-bind="asyncClick: create, asyncClickHtml: '&lt;i class=&quot;fa fa-spinner fa-spin&quot;&gt;&lt;/i&gt; ' + t('general.waiting')(), text: t('general.create-game')"></button></p>
         </form>
         <!-- /ko -->
     </div>

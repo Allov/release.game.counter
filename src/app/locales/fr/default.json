@@ -16,6 +16,17 @@
         "player": "Joueur ",
         "game-name-required": "Le nom de la partie est requis.",
         "logout": "Se déconnecter",
-        "disconnected": "Oops! Vous êtes déconnecté du serveur. Nous allons tenter de vous reconnecter, mais vous pouvez aussi tanter de rafraîchir la page."
+        "connect": "Connecter",
+        "disconnected": "Oops! Vous êtes déconnecté du serveur. Nous allons tenter de vous reconnecter, mais vous pouvez aussi tanter de rafraîchir la page.",
+        "page-not-found": "Page introuvable",
+        "trying-create-game": "Est-ce que vous tentez de <a href=\"/\">créer</a> une partie?",
+        "game-admin-name": "Nom",
+        "game-admin-description": "Description",
+        "cancel": "Annuler",
+        "update": "Modifier",
+        "viewerCount": "Viewer count: ",
+        "followTwitter": "Follow us on twitter",
+        "seeGithub": "See us on github",
+        "game-admin-title": "Gestion de __name__"
     }
 }
