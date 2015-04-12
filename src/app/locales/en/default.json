@@ -27,6 +27,7 @@
         "viewerCount": "Nombre de spectacteur: ",
         "followTwitter": "Suivez-nous sur twitter",
         "seeGithub": "Visitez nous sur github",
+        "waiting": "En attente...",
         "game-admin-title": "Managing __name__"
     }
 }

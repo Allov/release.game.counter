@@ -27,6 +27,7 @@
         "viewerCount": "Viewer count: ",
         "followTwitter": "Follow us on twitter",
         "seeGithub": "See us on github",
+        "waiting": "Waiting...",
         "game-admin-title": "Gestion de __name__"
     }
 }
