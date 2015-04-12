@@ -19,6 +19,11 @@
         "connect": "Connect",
         "disconnected": "Oops! You are now disconnected from the server. We'll try to reconnect you, but you could also refresh the page.",
         "page-not-found": "Page not found",
-        "trying-create-game": "Are you trying to <a href=\"/\">create</a> a game?"
+        "trying-create-game": "Are you trying to <a href=\"/\">create</a> a game?",
+        "game-admin-name": "Name",
+        "game-admin-description": "Description",
+        "cancel": "Cancel",
+        "update": "Update",
+        "game-admin-title": "Managing __name__"
     }
 }

@@ -11,7 +11,7 @@ var Game = mongoose.model('Game', {
     players: []
 });
 
-var GamesController = function(app) {
+var GamesController = function(app, io) {
 
 
     app.get('/api/games/most-popular', function(req, res) {
@@ -50,7 +50,9 @@ var GamesController = function(app) {
                 return;
             }
 
-            if (result.administratorId && (!req.user || !req.user.logged_in || result.administratorId != req.user.profile.id)) {
+            console.log(req.user);
+
+            if (result.administratorId && (!req.user || result.administratorId != req.user.id)) {
                 res.status(403).send('You are not the administrator of this game.');
                 return;
             }
@@ -65,10 +67,16 @@ var GamesController = function(app) {
                 result.players = req.body.players;
             }
             if (req.body.slug) {
-                result.name = req.body.slug;
+                result.slug = req.body.slug;
             }
 
             result.save();
+
+            io.to(req.params.slug).emit('game-meta-updated', {
+                name: result.name,
+                description: result.description,
+                players: result.players
+            });
 
             res.send({
                     id: result.id,

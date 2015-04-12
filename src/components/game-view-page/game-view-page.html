@@ -1,6 +1,7 @@
 <div class="container">
     <!-- ko if: connected -->
-    <h1 data-bind="text: name"></h1>
+    <h1 class="page-header" data-bind="text: name"></h1>
+    <p data-bind="visible: description, text: description"></p>
     <table class="table">
         <tbody data-bind="foreach: players">
             <tr>

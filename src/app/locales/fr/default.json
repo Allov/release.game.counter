@@ -19,6 +19,11 @@
         "connect": "Connecter",
         "disconnected": "Oops! Vous êtes déconnecté du serveur. Nous allons tenter de vous reconnecter, mais vous pouvez aussi tanter de rafraîchir la page.",
         "page-not-found": "Page introuvable",
-        "trying-create-game": "Est-ce que vous tentez de <a href=\"/\">créer</a> une partie?"
+        "trying-create-game": "Est-ce que vous tentez de <a href=\"/\">créer</a> une partie?",
+        "game-admin-name": "Nom",
+        "game-admin-description": "Description",
+        "cancel": "Annuler",
+        "update": "Modifier",
+        "game-admin-title": "Gestion de __name__"
     }
 }

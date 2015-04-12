@@ -169,6 +169,8 @@ var GameIo = function(io) {
         io.to(socket.id).emit('joined', {
             id: joinedGame.id,
             slug: joinedGame.slug,
+            name: joinedGame.game.name,
+            description: joinedGame.game.description,
             isAdmin: isAdmin,
             players: joinedGame.game.players,
             viewers: viewers
