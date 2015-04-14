@@ -37,8 +37,7 @@ global.includes = [
 // Add any folder to be copied over the release target. Folder hierarchy will remain.
 global.folders = [
     './src/bower_components/fontawesome/fonts/**/*',
-    './src/app/locales/**/*',
-    './src/bower_components/socket.io-client/socket.io.js'
+    './src/app/locales/**/*'
 ];
 
 // The hack (https://gist.github.com/branneman/8048520#6-the-hack)

@@ -22,7 +22,7 @@ var minify = require('gulp-minify-css');
 var optimizer = require('builds/rjs-config');
 
 // Discovers all AMD dependencies, concatenates together all required .js files, minifies them
-gulp.task('deploy-js', ['environment', 'js-list', 'html-list'], function() {
+gulp.task('deploy-js', ['minify-other', 'environment', 'js-list', 'html-list'], function() {
     // Config
     var requiredJsFiles = _.map(filenames.get('js'), function(f) {
         return 'components/' + f.replace(/\\/g,'/').replace('.js', '');
@@ -36,6 +36,14 @@ gulp.task('deploy-js', ['environment', 'js-list', 'html-list'], function() {
             preserveComments: 'some'
         }))
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('minify-other', function() {
+    return gulp.src(['./src/bower_components/socket.io-client/socket.io.js'])
+        .pipe(uglify({
+            preserveComments: 'some'
+        }))
+        .pipe(gulp.dest('./dist/socket.io.min.js'));
 });
 
 gulp.task('deploy-folders', function() {
