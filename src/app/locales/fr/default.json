@@ -11,7 +11,7 @@
         "add-description": "Ajouter au pointage",
         "substract": "Soustraire",
         "substract-description": "Soustraire au pointage",
-        "score": "Score",
+        "score": "Pointage",
         "score-description": "Le score de __player__ est de ",
         "player": "Joueur ",
         "game-name-required": "Le nom de la partie est requis.",
