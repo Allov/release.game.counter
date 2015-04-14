@@ -24,10 +24,11 @@
         "game-admin-description": "Description",
         "cancel": "Cancel",
         "update": "Update",
-        "viewerCount": "Nombre de spectacteur: ",
-        "followTwitter": "Suivez-nous sur twitter",
-        "seeGithub": "Visitez nous sur github",
-        "waiting": "En attente...",
+        "viewerCount": "Viewer count: ",
+        "followTwitter": "Follow us on twitter",
+        "seeGithub": "See us on github",
+        "waiting": "Waiting...",
+        "edit-game-info": "Modify",
         "game-admin-title": "Managing __name__"
     }
 }
