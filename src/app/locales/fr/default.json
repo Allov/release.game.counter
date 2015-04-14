@@ -28,6 +28,7 @@
         "followTwitter": "Suivez-nous sur twitter",
         "seeGithub": "Visitez nous sur github",
         "waiting": "En attente...",
+        "edit-game-info": "Modifier",
         "game-admin-title": "Gestion de __name__"
     }
 }
