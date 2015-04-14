@@ -38,7 +38,9 @@ global.includes = [
 global.folders = [
     './src/bower_components/fontawesome/fonts/**/*',
     './src/app/locales/**/*',
-    './src/bower_components/socket.io-client/socket.io.js'
+    './src/bower_components/socket.io-client/socket.io.js',
+    './src/robots.txt',
+    './src/sitemap.xml'
 ];
 
 // The hack (https://gist.github.com/branneman/8048520#6-the-hack)
