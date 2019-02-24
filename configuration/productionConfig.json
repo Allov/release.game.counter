@@ -1,9 +1,9 @@
 {
     "port": 1339,
     "facebook-clientId": "1564434740483365",
-    "facebook-clientSecret": "***REMOVED***",
+    "facebook-clientSecret": "",
     "google-clientId": "722299133858-ukm0olcbva5gfv720irskvabkmkn08c8.apps.googleusercontent.com",
-    "google-clientSecret": "***REMOVED***",
+    "google-clientSecret": "",
     "hostname": "scorekeepr.net",
     "expressPath": "./dist"
 }
